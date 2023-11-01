@@ -2,7 +2,7 @@
 #define RELAIS1_PIN 4
 #define RELAIS2_PIN 5
 
-unsigned long lastFeuchtigkeitMillis = 0;  // Zeitpunkt der letzten Feuchtigkeitsdatenausgabe
+unsigned long lastFeuchtigkeitMillis = 0;  // Zeitpunkt der letzten Feuchtigkeitsdatenausgabe kleiner Test
 
 void setup() {
   Serial.begin(9600);
