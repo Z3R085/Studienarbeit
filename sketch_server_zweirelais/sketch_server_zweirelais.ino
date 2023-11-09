@@ -16,6 +16,11 @@
 const char* ssid = "FlosWlan";
 const char* password = "16794671194111394536";
 
+// PWM-Konfiguration
+const int freq = 5000;
+const int pwmChannel = 0;
+const int resolution = 8; // 1-255 Duty Cycle
+
 // HTML-Code für die Webseite, die auf dem ESP32 gehostet wird
 //Speichern des HTML-Codes im Flash 
 const char index_html[] PROGMEM = R"rawliteral(  
