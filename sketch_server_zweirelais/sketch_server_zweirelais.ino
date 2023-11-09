@@ -21,6 +21,11 @@ const char* password = "16794671194111394536";
 #define RELAIS1_PIN 4
 #define RELAIS2_PIN 5
 
+// Globale Variablen, um den Zustand und die Zeit zu speichern
+bool isRelay1On = false;
+unsigned long relay1Timer = 0;
+const int relayDelay = 2500; // Versuch immer 100ml zu pumpen
+
 // Asynchroner Web-Servers auf Port 80
 AsyncWebServer server(80);
 
@@ -79,8 +84,8 @@ const char index_html[] PROGMEM = R"rawliteral(
     xhr.send();
   }
 
-  // Aktualisieren Sie die Feuchtigkeitsdaten alle 3 Sekunden
-  setInterval(refreshData, 3000);
+  // Aktualisieren der Feuchtigkeitsdaten jede Sekunde
+  setInterval(refreshData, 1000);
   </script>
 </head>
 <body>
@@ -116,6 +121,9 @@ void setup() {
   Serial.println("Verbunden mit WiFi-Netzwerk");
   Serial.println(WiFi.localIP());
 
+
+  //Beginn der eigentlichen Logik
+
   // Definieren der Route für die Wurzel-URL, die das HTML zurückgibt
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send_P(200, "text/html", index_html);
@@ -126,10 +134,11 @@ void setup() {
   server.on("/toggle", HTTP_GET, [](AsyncWebServerRequest *request) {
     String relay = request->getParam("relay")->value();
     if (relay == "1") {
-      // Relais 1 toggeln
-      digitalWrite(RELAIS1_PIN, !digitalRead(RELAIS1_PIN));
-      delay(3000);
-      digitalWrite(RELAIS1_PIN, !digitalRead(RELAIS1_PIN));
+      // Einschalten von Relais 1 ohne Verwendung von delay()
+    digitalWrite(RELAIS1_PIN, HIGH);
+    // Speichern des aktuellen Zeitstempels und des Zustands
+    relay1Timer = millis();
+    isRelay1On = !isRelay1On;
     } else if (relay == "2") {
       // Relais 2 toggeln
       digitalWrite(RELAIS2_PIN, !digitalRead(RELAIS2_PIN));
@@ -151,5 +160,11 @@ void setup() {
 }
 
 void loop() {
-  // Hier bleibt der Loop leer, da alle Operationen über den Webserver asynchron ablaufen
+  // Überprüfen, ob die Verzögerungszeit für Relais 1 abgelaufen ist
+  if (isRelay1On && millis() - relay1Timer >= relayDelay) {
+    // Relais zurückumschalten
+    digitalWrite(RELAIS1_PIN, !digitalRead(RELAIS1_PIN));
+    // Zurücksetzen des Zustands
+    isRelay1On = false;
+  }
 }
