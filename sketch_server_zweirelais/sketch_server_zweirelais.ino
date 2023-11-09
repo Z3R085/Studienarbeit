@@ -128,6 +128,8 @@ void setup() {
     if (relay == "1") {
       // Relais 1 toggeln
       digitalWrite(RELAIS1_PIN, !digitalRead(RELAIS1_PIN));
+      delay(3000);
+      digitalWrite(RELAIS1_PIN, !digitalRead(RELAIS1_PIN));
     } else if (relay == "2") {
       // Relais 2 toggeln
       digitalWrite(RELAIS2_PIN, !digitalRead(RELAIS2_PIN));
