@@ -16,10 +16,13 @@
 const char* ssid = "FlosWlan";
 const char* password = "16794671194111394536";
 
-// PWM-Konfiguration
-const int freq = 5000;
-const int pwmChannel = 0;
-const int resolution = 8; // 1-255 Duty Cycle
+//Pinbelegung
+#define FEUCHTIGKEIT_PIN 34
+#define RELAIS1_PIN 4
+#define RELAIS2_PIN 5
+
+// Asynchroner Web-Servers auf Port 80
+AsyncWebServer server(80);
 
 // HTML-Code für die Webseite, die auf dem ESP32 gehostet wird
 //Speichern des HTML-Codes im Flash 
@@ -27,6 +30,27 @@ const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
   <title>Relais Steuerung</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #feuchtigkeit {
+      margin-top: 15px;
+    }
+  </style>
   <script>
   // Funktion zum Umschalten der Relais über einen HTTP-Request
   function toggleRelay(relay) { //toggleRelay bekommt Nummer der "Pumpe"
@@ -61,19 +85,14 @@ const char index_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
   <h1>Relais Steuerung</h1>
-  <button onclick="toggleRelay(1)">Relais 1 umschalten</button>
-  <button onclick="toggleRelay(2)">Relais 2 umschalten</button>
+  <button onclick="toggleRelay(1)">Pumpe 1 umschalten</button>
+  <button onclick="toggleRelay(2)">Pumpe 2 umschalten</button>
   <p>Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
 </body>
 </html>
 )rawliteral";
 
-#define FEUCHTIGKEIT_PIN 34
-#define RELAIS1_PIN 4
-#define RELAIS2_PIN 5
 
-// Asynchroner Web-Servers auf Port 80
-AsyncWebServer server(80);
 
 void setup() {
   // Initialisieren der seriellen Kommunikation mit einer Baudrate von 9600
