@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pumpen Steuerung</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+      }
+      button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      #feuchtigkeit {
+        margin-top: 15px;
+      }
+    </style>
+    <script>
+      // Funktion zum Umschalten der Relais über einen HTTP-Request
+      function toggleRelay(relay) {
+        //toggleRelay bekommt Nummer der "Pumpe"
+        var xhr = new XMLHttpRequest(); // Ein neues XMLHttpRequest-Objekt wird erstellt, das für die Durchführung von HTTP-Anfragen verwendet wird.
+        // Die "open"-Methode konfiguriert die Art der Anfrage (GET), die Ziel-URL und setzt die Anfrage als asynchron (true).
+        // Der URL wird der Query-Parameter "relay" angehängt, der den Wert des "relay"-Parameters enthält.
+        xhr.open("GET", "/toggle?relay=" + relay, true);
+        // Die "send"-Methode sendet die konfigurierte Anfrage an den Server.
+        xhr.send();
+      }
+
+      // Funktion zum periodischen Abrufen des Feuchtigkeitswertes
+      function refreshData() {
+        var xhr = new XMLHttpRequest();
+        // Festlegen einer Funktion, die aufgerufen wird, wenn sich der Zustand des XMLHttpRequests ändert.
+        xhr.onreadystatechange = function () {
+          // Überprüfen, ob die Anfrage abgeschlossen ist (readyState == 4) und ob sie erfolgreich war (status == 200).
+          if (this.readyState == 4 && this.status == 200) {
+            // Aktualisieren des Textinhalts des HTML-Elements mit der ID "feuchtigkeit" mit der Antwort des Servers.
+            document.getElementById("feuchtigkeit").innerText =
+              this.responseText;
+          }
+        };
+        // Konfigurieren der GET-Anfrage
+        xhr.open("GET", "/feuchtigkeit", true);
+        //Senden der Anfrage an den Server
+        xhr.send();
+      }
+
+      // Aktualisieren der Feuchtigkeitsdaten jede Sekunde
+      setInterval(refreshData, 1000);
+    </script>
+  </head>
+  <body>
+    <h1>Relais Steuerung</h1>
+    <button onclick="toggleRelay(1)">Pumpe 1 einschalten (3 sek)</button>
+    <button onclick="toggleRelay(2)">Pumpe 2 umschalten</button>
+    <p>Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
+  </body>
+</html>
