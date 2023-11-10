@@ -135,7 +135,7 @@ void setup() {
     String relay = request->getParam("relay")->value();
     if (relay == "1") {
       // Einschalten von Relais 1 ohne Verwendung von delay()
-    digitalWrite(RELAIS1_PIN, HIGH);
+    digitalWrite(RELAIS1_PIN, !digitalRead(RELAIS1_PIN));
     // Speichern des aktuellen Zeitstempels und des Zustands
     relay1Timer = millis();
     isRelay1On = !isRelay1On;
