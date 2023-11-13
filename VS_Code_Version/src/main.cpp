@@ -38,6 +38,9 @@ void setup() {
   Serial.begin(9600);
 
   SPIFFS.begin();
+  
+  //WLAN-Verbindung herstellen
+  connectToWifi();
 
   // Initialisieren der Relais-Pins als Ausgänge
   pinMode(RELAIS1_PIN, OUTPUT);
