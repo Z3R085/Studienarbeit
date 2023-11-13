@@ -11,7 +11,7 @@
 #include <AsyncWebSynchronization.h>
 #include <AsyncTCP.h>
 
-#include <WiFi.h>
+#include <network.h>
 
 
 //Pinbelegung
