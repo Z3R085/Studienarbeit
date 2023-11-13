@@ -12,6 +12,9 @@
 #include <AsyncTCP.h>
 
 #include <network.h>
+#include <relay.h>
+#include <Arduino.h>
+
 
 
 //Pinbelegung
@@ -22,13 +25,11 @@
 // Globale Variablen, um den Zustand und die Zeit zu speichern
 bool isRelay1On = false;
 unsigned long relay1Timer = 0;
-const int relayDelay = 2500; // Versuch immer 100ml zu pumpen
+
 
 // Asynchroner Web-Servers auf Port 80
 AsyncWebServer server(80);
 
-// HTML-Code für die Webseite, die auf dem ESP32 gehostet wird
-//Speichern des HTML-Codes im Flash 
 
 
 
@@ -38,17 +39,17 @@ void setup() {
   Serial.begin(9600);
 
   SPIFFS.begin();
-  
+
   //WLAN-Verbindung herstellen
   connectToWifi();
 
-  // Initialisieren der Relais-Pins als Ausgänge
-  pinMode(RELAIS1_PIN, OUTPUT);
-  pinMode(RELAIS2_PIN, OUTPUT);
+  // Setup für Relais-Pins
+    for (int i = 0; i < numRelays; ++i) {
+    pinMode(relays[i].pin, OUTPUT);
+    digitalWrite(relays[i].pin, LOW);
+}
 
-  // Setzen der Relais in den Aus-Zustand
-  digitalWrite(RELAIS1_PIN, LOW);
-  digitalWrite(RELAIS2_PIN, LOW);
+
 
   
 
@@ -64,6 +65,8 @@ server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
   // Extrahieren des 'relay'-Parameters aus der Anfrage, der angibt, welches Relais (Pumpe) umgeschaltet werden soll.
   server.on("/toggle", HTTP_GET, [](AsyncWebServerRequest *request) {
     String relay = request->getParam("relay")->value();
+
+    
     if (relay == "1") {
       // Einschalten von Relais 1 ohne Verwendung von delay()
     digitalWrite(RELAIS1_PIN, !digitalRead(RELAIS1_PIN));
