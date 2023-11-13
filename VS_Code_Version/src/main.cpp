@@ -13,9 +13,6 @@
 
 #include <WiFi.h>
 
-// Netzwerkinformationen 
-const char* ssid = "FlosWlan";
-const char* password = "16794671194111394536";
 
 //Pinbelegung
 #define FEUCHTIGKEIT_PIN 34
@@ -50,15 +47,7 @@ void setup() {
   digitalWrite(RELAIS1_PIN, LOW);
   digitalWrite(RELAIS2_PIN, LOW);
 
-  // Verbinden mit dem WLAN-Netzwerk
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Verbindung zum WLAN-Netzwerk wird aufgebaut...");
-  }
   
-  Serial.println("Verbunden mit WiFi-Netzwerk");
-  Serial.println(WiFi.localIP());
 
 
   //Beginn der eigentlichen Logik

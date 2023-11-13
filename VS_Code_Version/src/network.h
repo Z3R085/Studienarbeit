@@ -1,0 +1,4 @@
+// network.h
+void connectToWifi();
+
+
