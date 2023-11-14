@@ -11,6 +11,8 @@
 #include <AsyncWebSynchronization.h>
 #include <AsyncTCP.h>
 #include <Arduino.h>
+
+#include <sensor.h>	
 #include <network.h>
 #include <relay.h>
 
@@ -48,7 +50,7 @@ void setup() {
     for (int i = 0; i < numRelays; ++i) {
     pinMode(relays[i].pin, OUTPUT);
     digitalWrite(relays[i].pin, LOW);
-}
+  }
 
 
 
@@ -73,15 +75,13 @@ server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
     // Senden einer HTTP-Antwort mit dem Statuscode 200 (OK) und einer einfachen Textnachricht "OK" als Bestätigung, dass die Aktion ausgeführt wurde.
     request->send(200, "text/plain", "OK");
   });
-
+  
   // Definieren der Route zum Abrufen des aktuellen Feuchtigkeitswerts
-  server.on("/feuchtigkeit", HTTP_GET, [](AsyncWebServerRequest *request) {
-    int sensorValue = analogRead(FEUCHTIGKEIT_PIN);  
-    float voltage = sensorValue * (3.3 / 4095.0); // Umwandlung in Spannung
-    String feuchtigkeit = String(voltage, 2) + "V"; // Umwandlung in String mit 2 Dezimalstellen
+ server.on("/feuchtigkeit", HTTP_GET, [](AsyncWebServerRequest *request) {
+    String feuchtigkeit = readSensor();
     request->send(200, "text/plain", feuchtigkeit);
   });
-
+  
   // Starten des Webservers
   server.begin();
 }
@@ -90,3 +90,5 @@ void loop() {
   // Überprüfen, ob die Verzögerungszeit für Relais abgelaufen ist. Wenn ja, schalte das Relais aus.
   checkRelays();
 }
+
+
