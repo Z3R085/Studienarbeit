@@ -38,6 +38,7 @@ void setup() {
   // Initialisieren der seriellen Kommunikation mit einer Baudrate von 9600
   Serial.begin(9600);
 
+  // Initialisieren des Dateisystems
   SPIFFS.begin();
 
   //WLAN-Verbindung herstellen
@@ -64,19 +65,11 @@ server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
   // Definieren der Route "/toggle", um auf HTTP GET-Anfragen zu reagieren, die zum Umschalten der Relais dienen.
   // Extrahieren des 'relay'-Parameters aus der Anfrage, der angibt, welches Relais (Pumpe) umgeschaltet werden soll.
   server.on("/toggle", HTTP_GET, [](AsyncWebServerRequest *request) {
+    // Extrahieren des 'relay'-Parameters aus der Anfrage, der angibt, welches Relais (Pumpe) umgeschaltet werden soll.
     String relay = request->getParam("relay")->value();
 
-    
-    if (relay == "1") {
-      // Einschalten von Relais 1 ohne Verwendung von delay()
-    digitalWrite(RELAIS1_PIN, !digitalRead(RELAIS1_PIN));
-    // Speichern des aktuellen Zeitstempels und des Zustands
-    relay1Timer = millis();
-    isRelay1On = !isRelay1On;
-    } else if (relay == "2") {
-      // Relais 2 toggeln
-      digitalWrite(RELAIS2_PIN, !digitalRead(RELAIS2_PIN));
-    }
+    // Umschalten des Relais
+    toggleRelay(relay.toInt());
     // Senden einer HTTP-Antwort mit dem Statuscode 200 (OK) und einer einfachen Textnachricht "OK" als Bestätigung, dass die Aktion ausgeführt wurde.
     request->send(200, "text/plain", "OK");
   });
@@ -94,11 +87,6 @@ server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
 }
 
 void loop() {
-  // Überprüfen, ob die Verzögerungszeit für Relais 1 abgelaufen ist
-  if (isRelay1On && millis() - relay1Timer >= relayDelay) {
-    // Relais zurückumschalten
-    digitalWrite(RELAIS1_PIN, !digitalRead(RELAIS1_PIN));
-    // Zurücksetzen des Zustands
-    isRelay1On = false;
-  }
+  // Überprüfen, ob die Verzögerungszeit für Relais abgelaufen ist. Wenn ja, schalte das Relais aus.
+  checkRelays();
 }
