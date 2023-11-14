@@ -52,16 +52,14 @@ void setup() {
     digitalWrite(relays[i].pin, LOW);
   }
 
-
-
+  // Setup für Feuchtigkeitssensor-Pin
+  pinMode(FEUCHTIGKEIT_PIN, INPUT);
   
-
-
   //Beginn der eigentlichen Logik
-// Definieren der Route für die Wurzel-URL, die das HTML aus einer Datei zurückgibt
-server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+  // Definieren der Route für die Wurzel-URL, die das HTML aus einer Datei zurückgibt
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
   request->send(SPIFFS, "/index.html", "text/html");
-});
+  });
 
 
   // Definieren der Route "/toggle", um auf HTTP GET-Anfragen zu reagieren, die zum Umschalten der Relais dienen.
