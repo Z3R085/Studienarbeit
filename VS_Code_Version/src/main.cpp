@@ -34,8 +34,6 @@ AsyncWebServer server(80);
 
 
 
-
-
 void setup() {
   // Initialisieren der seriellen Kommunikation mit einer Baudrate von 9600
   Serial.begin(9600);
