@@ -22,7 +22,8 @@ void toggleRelay(int relayNumber) {
     digitalWrite(relay.pin, !digitalRead(relay.pin));
     relay.isOn = !relay.isOn;
     if (relay.isOn) {
-        relay.timer = millis();
+        relay.timer = millis(); 
+        relay.lastActivated = millis(); // Speichern des aktuellen Zeitstempels
     }
 }
 
@@ -42,4 +43,6 @@ void checkRelays() {
         }
     }
 }
+
+
 

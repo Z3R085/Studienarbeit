@@ -5,19 +5,19 @@
 #define RELAIS2_PIN 5
 
 struct Relay {
-    int pin;
-    bool isOn;
-    unsigned long timer;
+    int pin; // Pin, an dem das Relais angeschlossen ist
+    bool isOn; // Zustand des Relais (ein- oder ausgeschaltet)
+    unsigned long timer; // Zeit, zu der das Relais ausgeschaltet werden soll
+    unsigned long lastActivated; // Zeit, zu der das Relais zuletzt eingeschaltet wurde
 };
 
 // Globale Variablen für die Relais
-extern Relay relays[];
-extern const int numRelays;
+extern Relay relays[]; // Array mit den Relais
+extern const int numRelays; // Anzahl der Relais
 
+extern const unsigned long relayDelay; // Verzögerung, nach der das Relais ausgeschaltet werden soll
 
-// Verzögerungszeit für die Relais
-extern const unsigned long relayDelay;
+void toggleRelay(int relayNumber); // Funktion zum Umschalten eines Relais
+void checkRelays(); // Funktion zum Überprüfen, ob die Verzögerungszeit für Relais abgelaufen ist. Wenn ja, schalte das Relais aus.
 
-void toggleRelay(int relayNumber);
-void checkRelays();
 
