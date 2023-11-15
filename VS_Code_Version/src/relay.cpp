@@ -23,10 +23,11 @@ void toggleRelay(int relayNumber) {
     relay.isOn = !relay.isOn;
     if (relay.isOn) {
         relay.timer = millis(); 
-        //relay.lastActivated = millis(); // Speichern des aktuellen Zeitstempels
-        Serial.print("Relay ");
+        relay.lastActivated = millis(); // Speichern des aktuellen Zeitstempels
+        /*Serial.print("Relay ");
         Serial.print(relayNumber);
         Serial.println(" turned on");
+        */
     }
 }
 
@@ -43,10 +44,12 @@ void checkRelays() {
             digitalWrite(relays[i].pin, LOW);
             // Aktualisiere den Status des Relais in der Struktur, um anzuzeigen, dass es jetzt aus ist.
             relays[i].isOn = false;
+            /*
             Serial.print("Relay ");
             Serial.print(i + 1);
             Serial.println(" turned off");
-            
+            */
+
         }
     }
 }
