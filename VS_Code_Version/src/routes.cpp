@@ -9,6 +9,12 @@ void setupRoutes(AsyncWebServer &server) {
         request->send(SPIFFS, "/index.html", "text/html");
     });
 
+    // Route für die style.css-Datei
+    server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/style.css", "text/css");
+    });
+
+
     // Route zum Umschalten der Relais
     server.on("/toggle", HTTP_GET, [](AsyncWebServerRequest *request) {
         String relay = request->getParam("relay")->value();
