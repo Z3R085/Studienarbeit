@@ -37,16 +37,17 @@
       // Aktualisieren der Feuchtigkeitsdaten jede Sekunde
       setInterval(refreshData, 1000);
 
+      // Funktion zum Abrufen des Relais-Status
       function updateRelayStatus() {
         fetch('/relay-status')
         .then(response => response.json())
         .then(data => {
-            const table = document.getElementById('relaisStatus');
+            const table = document.getElementById('relaisStatus'); // Tabelle mit der ID "relaisStatus" wird ausgewählt
             // Lösche bestehende Zeilen, außer der Kopfzeile
             while(table.rows.length > 1) {
                 table.deleteRow(1);
             }
-    
+            // Füge für jedes Relais eine neue Zeile hinzu
             data.relays.forEach((relay, index) => {
                 const row = table.insertRow(-1); // Fügt eine neue Zeile am Ende der Tabelle ein
                 const cell1 = row.insertCell(0);
@@ -65,15 +66,15 @@
     </script>
   </head>
   <body>
-    <h1>Relais Steuerung</h1>
+    <h1>Pumpen-Steuerung</h1>
     <button onclick="toggleRelay(1)">Pumpe 1 einschalten (3 sek)</button>
     <button onclick="toggleRelay(2)">Pumpe 2 einschalten (3 sek)</button>
     <p>Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
 
-    <h1>Relais-Status</h1>
+    <h1>Pumpen-Status</h1>
     <table id="relaisStatus">
         <tr>
-            <th>Relais Nummer</th>
+            <th>Nummer</th>
             <th>Status</th>
             <th>Letzte Aktivierung</th>
         </tr>
