@@ -1,46 +1,11 @@
+## Projekt-Dokumentation
 
-This directory is intended for project specific (private) libraries.
-PlatformIO will compile them to static libraries and link into executable file.
+# Übersicht 
 
-The source code of each library should be placed in a an own separate directory
-("lib/your_library_name/[here are source files]").
+Dieses Projekt implementiert die Bewässerungssteuerung für die Studienarbeit mit dem ESP32. Über Feuchtigkkeitssensoren wird die Bodenfeuchte gemessen und über Relais werden die Pumpem zum bewässern gesteurt. Das System ist über eine Web-Schnittstelle in Form einer Webseite zugänglich, welche die Steuerung und Überwachung der Relais bzw. der Feuchtigkeitssensoren ermöglicht.
 
-For example, see a structure of the following two libraries `Foo` and `Bar`:
+# Hauptkomponenten
 
-|--lib
-|  |
-|  |--Bar
-|  |  |--docs
-|  |  |--examples
-|  |  |--src
-|  |     |- Bar.c
-|  |     |- Bar.h
-|  |  |- library.json (optional, custom build options, etc) https://docs.platformio.org/page/librarymanager/config.html
-|  |
-|  |--Foo
-|  |  |- Foo.c
-|  |  |- Foo.h
-|  |
-|  |- README --> THIS FILE
-|
-|- platformio.ini
-|--src
-   |- main.c
+- ESP32: Kern des Systems, steuert Relais, ließt Feuchtigkeitssensor aus 
 
-and a contents of `src/main.c`:
-```
-#include <Foo.h>
-#include <Bar.h>
-
-int main (void)
-{
-  ...
-}
-
-```
-
-PlatformIO Library Dependency Finder will find automatically dependent
-libraries scanning project source files.
-
-More information about PlatformIO Library Dependency Finder
-- https://docs.platformio.org/page/librarymanager/ldf.html
+WEiterarbeiten!
