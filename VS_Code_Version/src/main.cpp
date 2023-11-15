@@ -8,18 +8,8 @@
 #include <relay.h>
 #include <routes.h>
 
-
-
-
-//Pinbelegung
+//Feuchtigkeitssensor-Pin
 #define FEUCHTIGKEIT_PIN 34
-#define RELAIS1_PIN 4
-#define RELAIS2_PIN 5
-
-// Globale Variablen, um den Zustand und die Zeit zu speichern
-bool isRelay1On = false;
-unsigned long relay1Timer = 0;
-
 
 // Asynchroner Web-Servers auf Port 80
 AsyncWebServer server(80);
@@ -53,8 +43,7 @@ void setup() {
 }
 
 void loop() {
+
   // Überprüfen, ob die Verzögerungszeit für Relais abgelaufen ist. Wenn ja, schalte das Relais aus.
   checkRelays();
 }
-
-
