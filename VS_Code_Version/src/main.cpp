@@ -1,20 +1,12 @@
-#include <ESPAsyncWebServer.h>
-#include <WebResponseImpl.h>
-#include <StringArray.h>
-#include <AsyncEventSource.h>
-#include <WebHandlerImpl.h>
-#include <AsyncWebSocket.h>
-#include <AsyncJson.h>
-#include <SPIFFSEditor.h>
-#include <SPIFFS.h>
-#include <WebAuthentication.h>
-#include <AsyncWebSynchronization.h>
-#include <AsyncTCP.h>
 #include <Arduino.h>
+#include <ESPAsyncWebServer.h>
+#include <SPIFFS.h>
+#include <AsyncTCP.h> 
 
 #include <sensor.h>	
 #include <network.h>
 #include <relay.h>
+#include <routes.h>
 
 
 
@@ -53,30 +45,8 @@ void setup() {
   // Setup für Feuchtigkeitssensor-Pin
   pinMode(FEUCHTIGKEIT_PIN, INPUT);
   
-  //Beginn der eigentlichen Logik
-  // Definieren der Route für die Wurzel-URL, die das HTML aus einer Datei zurückgibt
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-  request->send(SPIFFS, "/index.html", "text/html");
-  });
-
-
-  // Definieren der Route "/toggle", um auf HTTP GET-Anfragen zu reagieren, die zum Umschalten der Relais dienen.
-  // Extrahieren des 'relay'-Parameters aus der Anfrage, der angibt, welches Relais (Pumpe) umgeschaltet werden soll.
-  server.on("/toggle", HTTP_GET, [](AsyncWebServerRequest *request) {
-    // Extrahieren des 'relay'-Parameters aus der Anfrage, der angibt, welches Relais (Pumpe) umgeschaltet werden soll.
-    String relay = request->getParam("relay")->value();
-
-    // Umschalten des Relais
-    toggleRelay(relay.toInt());
-    // Senden einer HTTP-Antwort mit dem Statuscode 200 (OK) und einer einfachen Textnachricht "OK" als Bestätigung, dass die Aktion ausgeführt wurde.
-    request->send(200, "text/plain", "OK");
-  });
-  
-  // Definieren der Route zum Abrufen des aktuellen Feuchtigkeitswerts
- server.on("/feuchtigkeit", HTTP_GET, [](AsyncWebServerRequest *request) {
-    String feuchtigkeit = readSensor();
-    request->send(200, "text/plain", feuchtigkeit);
-  });
+  /// Initialisiere die Webserver-Routen
+    setupRoutes(server);
   
   // Starten des Webservers
   server.begin();
