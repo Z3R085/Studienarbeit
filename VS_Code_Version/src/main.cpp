@@ -3,6 +3,7 @@
 #include <SPIFFS.h>
 #include <AsyncTCP.h> 
 
+#include <timesync.h>
 #include <sensor.h>	
 #include <network.h>
 #include <relay.h>
