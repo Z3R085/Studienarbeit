@@ -1,5 +1,7 @@
 #include "timesync.h"
 #include <time.h>
+#include <WiFi.h>
+
 
 void setupTime() {
     // Zeitzone auf MEZ setzen
