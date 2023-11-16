@@ -26,6 +26,9 @@ void setup() {
   //WLAN-Verbindung herstellen
   connectToWifi();
 
+  // Setup für die Zeit
+  setupTime();
+
   // Setup für Relais-Pins
     for (int i = 0; i < numRelays; ++i) {
     pinMode(relays[i].pin, OUTPUT);
