@@ -14,6 +14,11 @@ void setupRoutes(AsyncWebServer &server) {
     request->send(SPIFFS, "/style.css", "text/css");
     });
 
+    // Route für die script.js-Datei
+    server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/script.js", "text/javascript");
+    });
+
 
     // Route zum Umschalten der Relais
     server.on("/toggle", HTTP_GET, [](AsyncWebServerRequest *request) {
