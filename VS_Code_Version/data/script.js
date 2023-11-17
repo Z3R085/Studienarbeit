@@ -35,24 +35,25 @@ function toggleRelay(relay) {
     fetch('/relay-status')
     .then(response => response.json())
     .then(data => {
-        const table = document.getElementById('relaisStatus'); // Tabelle mit der ID "relaisStatus" wird ausgewählt
-        // Lösche bestehende Zeilen, außer der Kopfzeile
-        while(table.rows.length > 1) {
+        const currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
+        const table = document.getElementById('relaisStatus');
+        while (table.rows.length > 1) {
             table.deleteRow(1);
         }
-        // Füge für jedes Relais eine neue Zeile hinzu
         data.relays.forEach((relay, index) => {
-            const row = table.insertRow(-1); // Fügt eine neue Zeile am Ende der Tabelle ein
+            const row = table.insertRow(-1);
             const cell1 = row.insertCell(0);
             const cell2 = row.insertCell(1);
-            const cell3 = row.insertCell(2);
             cell1.innerHTML = index + 1; // Relais Nummer
-            cell2.innerHTML = relay.isOn ? 'Eingeschaltet' : 'Ausgeschaltet';
-            cell3.innerHTML = new Date(relay.lastActivated).toLocaleString(); // Formatierung des Zeitstempels
+            cell2.innerHTML = relay.lastActivated; // Zeitpunkt der letzten Aktivierung
         });
     })
-    .catch(error => console.error('Fehler beim Abrufen des Relais-Status:', error)); // Fehlerbehandlung
+    .catch(error => console.error('Fehler beim Abrufen des Relais-Status:', error));
 }
+// Aktualisieren des Relais-Status beim Laden der Seite
+document.addEventListener('DOMContentLoaded', function() {
+  updateRelayStatus();
+});
 
-// Aktualisieren des Relais-Status alle 2,5 Sekunden
-setInterval(updateRelayStatus, 1000); 
+
+
