@@ -8,7 +8,7 @@ struct Relay {
     int pin; // Pin, an dem das Relais angeschlossen ist
     bool isOn; // Zustand des Relais (ein- oder ausgeschaltet)
     unsigned long timer; // Zeit, zu der das Relais ausgeschaltet werden soll
-    unsigned long lastActivated; // Zeit, zu der das Relais zuletzt eingeschaltet wurde
+    String lastActivated; // Zeit, zu der das Relais zuletzt eingeschaltet wurde
 };
 
 // Globale Variablen für die Relais

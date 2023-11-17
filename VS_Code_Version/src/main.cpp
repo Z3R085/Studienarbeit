@@ -50,4 +50,6 @@ void loop() {
 
   // Überprüfen, ob die Verzögerungszeit für Relais abgelaufen ist. Wenn ja, schalte das Relais aus.
   checkRelays();
+
+  
 }

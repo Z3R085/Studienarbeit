@@ -42,8 +42,7 @@ void setupRoutes(AsyncWebServer &server) {
         // Erstelle ein JSON-Array mit der Anzahl der Relais
         for (int i = 0; i < numRelays; ++i) {
             doc["relays"][i]["pin"] = relays[i].pin; // Pin-Nummer
-            doc["relays"][i]["isOn"] = relays[i].isOn; // Zustand des Relais (ein- oder ausgeschaltet)
-            doc["relays"][i]["lastActivated"] = relays[i].lastActivated; // Zeit, zu der das Relais zuletzt eingeschaltet wurde
+            doc["relays"][i]["lastActivated"] = (relays[i].lastActivated);;    // Zeitstempel
         }
 
         String response; 

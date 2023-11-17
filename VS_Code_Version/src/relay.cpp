@@ -3,8 +3,8 @@
 // Initialisieren der Relais-Strukturen
 const int numRelays = 2; // Anzahl der Relais
 Relay relays[numRelays] = {
-    {RELAIS1_PIN, false, 0,0},
-    {RELAIS2_PIN, false, 0,0}
+    {RELAIS1_PIN, false, 0,"0"},
+    {RELAIS2_PIN, false, 0,"0"}
 };
 
 
@@ -23,11 +23,13 @@ void toggleRelay(int relayNumber) {
     relay.isOn = !relay.isOn;
     if (relay.isOn) {
         relay.timer = millis(); 
-        relay.lastActivated = millis(); // Speichern des aktuellen Zeitstempels
-        /*Serial.print("Relay ");
-        Serial.print(relayNumber);
-        Serial.println(" turned on");
-        */
+         // Speichern der aktuellen Uhrzeit als String
+        time_t now = time(nullptr);
+        struct tm *timeinfo = localtime(&now);
+        char buffer[26];
+        strftime(buffer, sizeof(buffer), "%H:%M:%S %d.%m.%Y ", timeinfo);
+        relay.lastActivated = String(buffer);
+        
     }
 }
 
@@ -44,11 +46,7 @@ void checkRelays() {
             digitalWrite(relays[i].pin, LOW);
             // Aktualisiere den Status des Relais in der Struktur, um anzuzeigen, dass es jetzt aus ist.
             relays[i].isOn = false;
-            /*
-            Serial.print("Relay ");
-            Serial.print(i + 1);
-            Serial.println(" turned off");
-            */
+            
 
         }
     }
