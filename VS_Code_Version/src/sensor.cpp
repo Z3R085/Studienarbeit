@@ -1,7 +1,7 @@
 #include "sensor.h"
 #include <Arduino.h>
 
-// Definieren Sie die Pin-Nummer, an die Ihr Feuchtigkeitssensor angeschlossen ist
+/// Pinbelegung
 #define FEUCHTIGKEIT_PIN 34
 
 String readSensor() {
@@ -13,7 +13,7 @@ String readSensor() {
     const int maxValue = 2844;
     
     //Umwandlung in Prozent
-    sensorValue = map(sensorValue, maxValue, minValue, 0, 100); // 
+    sensorValue = map(sensorValue, maxValue, minValue, 0, 100); //
 
     return String(sensorValue);
 }
