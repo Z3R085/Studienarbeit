@@ -7,9 +7,13 @@
 String readSensor() {
     // Auslesen des Sensorwertes
     int sensorValue = analogRead(FEUCHTIGKEIT_PIN);  
-    // Umwandlung in Spannung
-    float voltage = sensorValue * (3.3 / 4095.0); 
-    // Umwandlung in String mit 2 Dezimalstellen und Anhängen des "V" für Volt
-    //return String(voltage, 2) + "V";
+
+    // Definieren der Min- und Max-Werte des Sensors
+    const int minValue = 960;
+    const int maxValue = 2844;
+    
+    //Umwandlung in Prozent
+    sensorValue = map(sensorValue, maxValue, minValue, 0, 100); // 
+
     return String(sensorValue);
 }
