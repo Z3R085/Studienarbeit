@@ -15,5 +15,5 @@ String readSensor() {
     //Umwandlung in Prozent
     sensorValue = map(sensorValue, maxValue, minValue, 0, 100); // 
 
-    return String(sensorValue);
+    return String(sensorValue + "%");
 }
