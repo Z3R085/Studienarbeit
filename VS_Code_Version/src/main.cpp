@@ -30,7 +30,7 @@ void setup() {
   // Setup für die Zeit
   setupTime();
 
-  // Setup für Relais-Pins
+  // Setup für Relais-Pins //Anpassung
     for (int i = 0; i < numRelays; ++i) {
     pinMode(relays[i].pin, OUTPUT);
     digitalWrite(relays[i].pin, LOW);
@@ -47,7 +47,6 @@ void setup() {
 }
 
 void loop() {
-
   // Überprüfen, ob die Verzögerungszeit für Relais abgelaufen ist. Wenn ja, schalte das Relais aus.
   checkRelays();
 
