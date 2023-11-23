@@ -1,14 +1,12 @@
 // Funktion zum Umschalten der Relais über einen HTTP-Request
 function toggleRelay(relay) {
-    //toggleRelay bekommt Nummer der "Pumpe"
-    var xhr = new XMLHttpRequest(); // Ein neues XMLHttpRequest-Objekt wird erstellt, das für die Durchführung von HTTP-Anfragen verwendet wird.
-    // Die "open"-Methode konfiguriert die Art der Anfrage (GET), die Ziel-URL und setzt die Anfrage als asynchron (true).
-    // Der URL wird der Query-Parameter "relay" angehängt, der den Wert des "relay"-Parameters enthält.
-    xhr.open("GET", "/toggle?relay=" + relay, true);
-    // Die "send"-Methode sendet die konfigurierte Anfrage an den Server.
-    xhr.send();
-    updateRelayStatus();  // Aktualisieren des Relais-Status
-  }
+  var xhr = new XMLHttpRequest();
+  xhr.open("PUT", "/relais/toggle", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send("relay=" + relay);
+  updateRelayStatus();
+}
+
 
   // Funktion zum periodischen Abrufen des Feuchtigkeitswertes
   function refreshData() {

@@ -21,14 +21,17 @@ void setupRoutes(AsyncWebServer &server) {
 
 
     // Route zum Umschalten der Relais
-    server.on("/toggle", HTTP_GET, [](AsyncWebServerRequest *request) {
-        String relay = request->getParam("relay")->value();
-        int relayNumber = relay.toInt(); // Konvertiere die Relay-Nummer von String zu Int
-
+    server.on("/relais/toggle", HTTP_PUT, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("relay", true)) {
+        String relay = request->getParam("relay", true)->value();
+        int relayNumber = relay.toInt();
         toggleRelay(relayNumber);
-
         request->send(200, "text/plain", "OK");
+    } else {
+        request->send(400, "text/plain", "Bad Request");
+    }
     });
+
 
     // Route zum Abrufen des aktuellen Feuchtigkeitswerts
     server.on("/feuchtigkeit", HTTP_GET, [](AsyncWebServerRequest *request) {
