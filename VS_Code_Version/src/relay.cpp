@@ -7,6 +7,14 @@ Relay relays[numRelays] = {
     {RELAIS2_PIN, false, 0,"0"}
 };
 
+//Setup für Relais-Pins
+void setupRelays() {
+    for (int i = 0; i < numRelays; ++i) {
+        pinMode(relays[i].pin, OUTPUT);
+        digitalWrite(relays[i].pin, LOW);
+    }
+}
+
 
 // Verzögerungszeit für die Relais
 const unsigned long relayDelay = 2500; // 2.5 Sekunden

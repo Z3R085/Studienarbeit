@@ -1,4 +1,5 @@
 #include <Arduino.h>
+void setupRelays(); // Funktion zum Setup der Relais-Pins
 
 // Pinbelegung
 #define RELAIS1_PIN 4

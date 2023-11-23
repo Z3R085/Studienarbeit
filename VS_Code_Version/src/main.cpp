@@ -30,11 +30,8 @@ void setup() {
   // Setup für die Zeit
   setupTime();
 
-  // Setup für Relais-Pins //Anpassung
-    for (int i = 0; i < numRelays; ++i) {
-    pinMode(relays[i].pin, OUTPUT);
-    digitalWrite(relays[i].pin, LOW);
-  }
+  // Setup für Relais-Pins 
+  setupRelays();
 
   // Setup für Feuchtigkeitssensor-Pin
   pinMode(FEUCHTIGKEIT_PIN, INPUT);
