@@ -1,23 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Pumpen Steuerung</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <h1>Pumpen-Steuerung</h1>
-    <button onclick="toggleRelay(1)">Pumpe 1 einschalten (3 sek)</button>
-    <button onclick="toggleRelay(2)">Pumpe 2 einschalten (3 sek)</button>
-    <p>Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
+<head>
+  <title>Pumpen Steuerung</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center my-4">Pumpen-Steuerung</h1>
+
+    <div class="row mb-3 justify-content-center">
+      <div class="col-6">
+        <button class="btn btn-primary btn-block" onclick="toggleRelay(1)">Pumpe 1 einschalten (3 sek)</button>
+      </div>
+    </div>
+
+    <div class="row mb-3 justify-content-center">
+      <div class="col-6">
+        <button class="btn btn-primary btn-block" onclick="toggleRelay(2)">Pumpe 2 einschalten (3 sek)</button>
+      </div>
+    </div>
+
+    <p class="text-center">Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
     
-    <h1>Pumpen-Status</h1>
-    <table id="relaisStatus">
+    <h1 class="text-center my-4">Pumpen-Status</h1>
+    <table class="table table-bordered" id="relaisStatus">
+      <thead>
         <tr>
-            <th>Nummer</th>
-            <th>Letzte Aktivierung</th>
+          <th scope="col">Nummer</th>
+          <th scope="col">Letzte Aktivierung</th>
         </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamische Inhalte -->
+      </tbody>
     </table>
-  </body>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
 </html>
