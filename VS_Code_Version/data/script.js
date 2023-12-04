@@ -45,7 +45,7 @@ setInterval(refreshData, 1000);
 
 // Funktion zum Abrufen des Relais-Status
 function updateRelayStatus() {
-  fetch('/relay-status') // GET-Request an den Server
+  fetch('/relais/status') // GET-Request an den Server
   .then(response => response.json()) // Antwort als JSON interpretieren
   .then(data => { // JSON-Daten verarbeiten
       const currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden

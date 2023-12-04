@@ -40,7 +40,7 @@ void setupRoutes(AsyncWebServer &server) {
     });
 
      // Route zum Abrufen des lastActivated-Zeitstempels für jedes Relais
-    server.on("/relay-status", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/relais/status", HTTP_GET, [](AsyncWebServerRequest *request) {
         DynamicJsonDocument doc(1024); // Erstelle ein JSON-Dokument mit einer Größe von 1024 Bytes
         // Erstelle ein JSON-Array mit der Anzahl der Relais
         for (int i = 0; i < numRelays; ++i) {
