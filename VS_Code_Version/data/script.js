@@ -1,29 +1,27 @@
-// Funktion zum Umschalten der Relais über einen HTTP-Request
-function toggleRelay(relay) {
-  fetch('/relais/toggle', {
+// Funktion zum Umschalten der Pumpen ueber einen HTTP-Request
+function togglepump(pump) {
+  fetch('/pumpe/toggle', { // PUT-Request an den Server
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/x-www-form-urlencoded', // Formulardaten
     },
-    body: 'relay=' + relay
+    body: 'pump=' + pump
   })
   .then(response => {
     if (!response.ok) {
       throw new Error('Netzwerkantwort war nicht ok');
     }
-    updateRelayStatus();
+    updatepumpStatus();
   })
   .catch(error => {
-    console.error('Fehler beim Umschalten des Relais:', error);
+    console.error('Fehler beim Umschalten des pump:', error);
   });
 }
-
-
 
   
 // Funktion zum periodischen Abrufen des Feuchtigkeitswertes
 function refreshData() {
-  fetch('/feuchtigkeit')
+  fetch('/feuchtigkeit') // GET-Request an den Server
     .then(response => {
       // Sicherstellen, dass die Anfrage erfolgreich war
       if (!response.ok) {
@@ -43,31 +41,31 @@ function refreshData() {
 // Aktualisieren der Feuchtigkeitsdaten jede Sekunde
 setInterval(refreshData, 1000);
 
-// Funktion zum Abrufen des Relais-Status
-function updateRelayStatus() {
-  fetch('/relais/status') // GET-Request an den Server
+// Funktion zum Abrufen des pump-Status
+function updatepumpStatus() {
+  fetch('/pumpe/status') // GET-Request an den Server
   .then(response => response.json()) // Antwort als JSON interpretieren
   .then(data => { // JSON-Daten verarbeiten
       const currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
-      const table = document.getElementById('relaisStatus');
+      const table = document.getElementById('pumpStatus');
       while (table.rows.length > 1) {
           table.deleteRow(1);
       }
-      data.relays.forEach((relay, index) => {
+      data.pumps.forEach((pump, index) => {
           const row = table.insertRow(-1);
           const cell1 = row.insertCell(0);
           const cell2 = row.insertCell(1);
-          cell1.innerHTML = index + 1; // Relais Nummer
-          cell2.innerHTML = relay.lastActivated; // Zeitpunkt der letzten Aktivierung
+          cell1.innerHTML = index + 1; // pump Nummer
+          cell2.innerHTML = pump.lastActivated; // Zeitpunkt der letzten Aktivierung
       });
   })
-  .catch(error => console.error('Fehler beim Abrufen des Relais-Status:', error));
+  .catch(error => console.error('Fehler beim Abrufen des pump-Status:', error));
 }
 
 
-// Aktualisieren des Relais-Status beim Laden der Seite
+// Aktualisieren des pump-Status beim Laden der Seite
 document.addEventListener('DOMContentLoaded', function() {
-  updateRelayStatus();
+  updatepumpStatus();
 });
 
 

@@ -6,7 +6,7 @@
 #include <timesync.h>
 #include <sensor.h>	
 #include <network.h>
-#include <relay.h>
+#include <pump.h>
 #include <routes.h>
 
 //Feuchtigkeitssensor-Pin
@@ -27,14 +27,14 @@ void setup() {
   //WLAN-Verbindung herstellen
   connectToWifi();
 
-  // Setup für die Zeit
+  // Setup fuer die Zeit
   setupTime();
 
-  // Setup für Relais-Pins 
-  setupRelays();
+  // Setup fuer pump-Pins 
+  setuppumps();
 
-  // Setup für Feuchtigkeitssensor-Pin
-  pinMode(FEUCHTIGKEIT_PIN, INPUT);
+  // Setup fuer Feuchtigkeitssensor-Pin
+  pinMode(FEUCHTIGKEIT_PIN, INPUT); //Modul selbst erstellen
   
   /// Initialisiere die Webserver-Routen
     setupRoutes(server);
@@ -44,8 +44,8 @@ void setup() {
 }
 
 void loop() {
-  // Überprüfen, ob die Verzögerungszeit für Relais abgelaufen ist. Wenn ja, schalte das Relais aus.
-  checkRelays();
+  // ueberpruefen, ob die Verzögerungszeit fuer pump abgelaufen ist. Wenn ja, schalte die Pumpee aus.
+  checkpumps();
 
   
 }

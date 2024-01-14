@@ -1,31 +1,31 @@
 #include "routes.h"
-#include "relay.h" // Für toggleRelay
-#include "sensor.h" // Für readSensor
+#include "pump.h" // Fuer togglepump
+#include "sensor.h" // Fuer readSensor
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 void setupRoutes(AsyncWebServer &server) {
-    // Route für die Wurzel-URL, die das HTML aus einer Datei zurückgibt
+    // Route fuer die Wurzel-URL, die das HTML aus einer Datei zurueckgibt
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(SPIFFS, "/index.html", "text/html");
     });
 
-    // Route für die style.css-Datei
+    // Route fuer die style.css-Datei
     server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/style.css", "text/css");
     });
 
-    // Route für die script.js-Datei
+    // Route fuer die script.js-Datei
     server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/script.js", "text/javascript");
     });
 
 
-    // Route zum Umschalten der Relais
-    server.on("/relais/toggle", HTTP_PUT, [](AsyncWebServerRequest *request) {
-    if (request->hasParam("relay", true)) {
-        String relay = request->getParam("relay", true)->value();
-        int relayNumber = relay.toInt();
-        toggleRelay(relayNumber);
+    // Route zum Umschalten der Pumpen
+    server.on("/pumpe/toggle", HTTP_PUT, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("pump", true)) {
+        String pump = request->getParam("pump", true)->value();
+        int pumpNumber = pump.toInt();
+        togglepump(pumpNumber);
         request->send(200, "text/plain", "OK");
     } else {
         request->send(400, "text/plain", "Bad Request");
@@ -39,13 +39,13 @@ void setupRoutes(AsyncWebServer &server) {
         request->send(200, "text/plain", feuchtigkeit);
     });
 
-     // Route zum Abrufen des lastActivated-Zeitstempels für jedes Relais
-    server.on("/relais/status", HTTP_GET, [](AsyncWebServerRequest *request) {
+     // Route zum Abrufen des lastActivated-Zeitstempels fuer jedes pump
+    server.on("/pumpe/status", HTTP_GET, [](AsyncWebServerRequest *request) {
         DynamicJsonDocument doc(1024); // Erstelle ein JSON-Dokument mit einer Größe von 1024 Bytes
-        // Erstelle ein JSON-Array mit der Anzahl der Relais
-        for (int i = 0; i < numRelays; ++i) {
-            doc["relays"][i]["pin"] = relays[i].pin; // Pin-Nummer
-            doc["relays"][i]["lastActivated"] = (relays[i].lastActivated);;    // Zeitstempel
+        // Erstelle ein JSON-Array mit der Anzahl der Pumpen
+        for (int i = 0; i < numpumps; ++i) {
+            doc["pumps"][i]["pin"] = pumps[i].pin; // Pin-Nummer
+            doc["pumps"][i]["lastActivated"] = (pumps[i].lastActivated);;    // Zeitstempel
         }
 
         String response; 

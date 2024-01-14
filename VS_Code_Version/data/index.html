@@ -14,20 +14,20 @@
 
     <div class="row mb-3 justify-content-center">
       <div class="col-6">
-        <button class="btn btn-primary btn-block" onclick="toggleRelay(1)">Pumpe 1 einschalten (3 sek)</button>
+        <button class="btn btn-primary btn-block" onclick="togglepump(1)">Pumpe 1 einschalten (3 sek)</button>
       </div>
     </div>
 
     <div class="row mb-3 justify-content-center">
       <div class="col-6">
-        <button class="btn btn-primary btn-block" onclick="toggleRelay(2)">Pumpe 2 einschalten (3 sek)</button>
+        <button class="btn btn-primary btn-block" onclick="togglepump(2)">Pumpe 2 einschalten (3 sek)</button>
       </div>
     </div>
 
     <p class="text-center">Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
     
     <h1 class="text-center my-4">Pumpen-Status</h1>
-    <table class="table table-bordered" id="relaisStatus">
+    <table class="table table-bordered" id="pumpStatus">
       <thead>
         <tr>
           <th scope="col">Nummer</th>
