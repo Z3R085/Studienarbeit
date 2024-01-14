@@ -44,7 +44,7 @@ void setup() {
 }
 
 void loop() {
-  // ueberpruefen, ob die Verzögerungszeit fuer pump abgelaufen ist. Wenn ja, schalte die Pumpee aus.
+  // ueberpruefen, ob die Verzögerungszeit fuer pump abgelaufen ist. Wenn ja, schalte die pump aus.
   checkpumps();
 
   

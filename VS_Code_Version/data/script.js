@@ -1,6 +1,6 @@
-// Funktion zum Umschalten der Pumpen ueber einen HTTP-Request
+// Funktion zum Umschalten der pumpn ueber einen HTTP-Request
 function togglepump(pump) {
-  fetch('/pumpe/toggle', { // PUT-Request an den Server
+  fetch('/pump/toggle', { // PUT-Request an den Server
     method: 'PUT',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded', // Formulardaten
@@ -43,7 +43,7 @@ setInterval(refreshData, 1000);
 
 // Funktion zum Abrufen des pump-Status
 function updatepumpStatus() {
-  fetch('/pumpe/status') // GET-Request an den Server
+  fetch('/pump/status') // GET-Request an den Server
   .then(response => response.json()) // Antwort als JSON interpretieren
   .then(data => { // JSON-Daten verarbeiten
       const currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden

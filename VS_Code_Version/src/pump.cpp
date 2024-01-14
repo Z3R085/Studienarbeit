@@ -1,10 +1,10 @@
 #include "pump.h"
 
-// Initialisieren der Pumpen-Strukturen
-const int numpumps = 2; // Anzahl der Pumpen
+// Initialisieren der pumpn-Strukturen
+const int numpumps = 2; // Anzahl der pumpn
 pump pumps[numpumps] = {
-    {pump1_PIN, false, 0,"0"},
-    {pump2_PIN, false, 0,"0"}
+    {pump1_PIN, false, 0,"0",0},
+    {pump2_PIN, false, 0,"0",0}
 };
 
 //Setup fuer pump-Pins
@@ -16,14 +16,14 @@ void setuppumps() {
 }
 
 
-// Verzögerungszeit fuer die Pumpe
+// Verzögerungszeit fuer die pump
 const unsigned long pumpDelay = 2500; // 2.5 Sekunden
 
 /*
-togglepump(int pumpNumber) schaltet die Pumpe mit der uebergebenen Nummer um.
+togglepump(int pumpNumber) schaltet die pump mit der uebergebenen Nummer um.
 */
 void togglepump(int pumpNumber) {
-    // Zugriff auf die richtige Pumpe basierend auf der uebergebenen Nummer
+    // Zugriff auf die richtige pump basierend auf der uebergebenen Nummer
     pump &pump = pumps[pumpNumber - 1]; // Array-Index ist pumpNumber - 1
 
     // Umschalten des pump und Speichern des aktuellen Zeitstempels
@@ -41,16 +41,16 @@ void togglepump(int pumpNumber) {
     }
 }
 
-/*  checkpumps ueberprueft den Status jedes pump in der Pumpens-Array.
+/*  checkpumps ueberprueft den Status jedes pump in der pumpns-Array.
     Diese Funktion wird in der loop() regelmäßig aufgerufen, um zu pruefen, ob es Zeit ist,
     ein eingeschaltetes pump auszuschalten.
  */
 void checkpumps() {
-    // Durchlaufe jedes pump in der Pumpens-Array
+    // Durchlaufe jedes pump in der pumpns-Array
     for (int i = 0; i < sizeof(pumps)/sizeof(pumps[0]); ++i) {
         // Pruefe, ob das aktuelle pump eingeschaltet ist UND die festgelegte Verzögerungszeit abgelaufen ist.
         if (pumps[i].isOn && (millis() - pumps[i].timer >= pumpDelay)) {
-            // Wenn ja, schalte die Pumpee aus.
+            // Wenn ja, schalte die pump aus.
             digitalWrite(pumps[i].pin, LOW);
             // Aktualisiere den Status des pump in der Struktur, um anzuzeigen, dass es jetzt aus ist.
             pumps[i].isOn = false;

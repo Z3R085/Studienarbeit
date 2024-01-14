@@ -5,7 +5,7 @@ pio run -t uploadfs
 
 # uebersicht 
 
-Dieses Projekt implementiert die Bewässerungssteuerung fuer die Studienarbeit mit dem ESP32. ueber Feuchtigkkeitssensoren wird die Bodenfeuchte gemessen und ueber pump werden die Pumpeem zum bewässern gesteurt. Das System ist ueber eine Web-Schnittstelle in Form einer Webseite zugänglich, welche die Steuerung und ueberwachung der Pumpen bzw. der Feuchtigkeitssensoren ermöglicht.
+Dieses Projekt implementiert die Bewässerungssteuerung fuer die Studienarbeit mit dem ESP32. ueber Feuchtigkkeitssensoren wird die Bodenfeuchte gemessen und ueber pump werden die pumpm zum bewässern gesteurt. Das System ist ueber eine Web-Schnittstelle in Form einer Webseite zugänglich, welche die Steuerung und ueberwachung der pumpn bzw. der Feuchtigkeitssensoren ermöglicht.
 
 # Hauptkomponenten
 

@@ -20,8 +20,8 @@ void setupRoutes(AsyncWebServer &server) {
     });
 
 
-    // Route zum Umschalten der Pumpen
-    server.on("/pumpe/toggle", HTTP_PUT, [](AsyncWebServerRequest *request) {
+    // Route zum Umschalten der pumpn
+    server.on("/pump/toggle", HTTP_PUT, [](AsyncWebServerRequest *request) {
     if (request->hasParam("pump", true)) {
         String pump = request->getParam("pump", true)->value();
         int pumpNumber = pump.toInt();
@@ -40,9 +40,9 @@ void setupRoutes(AsyncWebServer &server) {
     });
 
      // Route zum Abrufen des lastActivated-Zeitstempels fuer jedes pump
-    server.on("/pumpe/status", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/pump/status", HTTP_GET, [](AsyncWebServerRequest *request) {
         DynamicJsonDocument doc(1024); // Erstelle ein JSON-Dokument mit einer Größe von 1024 Bytes
-        // Erstelle ein JSON-Array mit der Anzahl der Pumpen
+        // Erstelle ein JSON-Array mit der Anzahl der pumpn
         for (int i = 0; i < numpumps; ++i) {
             doc["pumps"][i]["pin"] = pumps[i].pin; // Pin-Nummer
             doc["pumps"][i]["lastActivated"] = (pumps[i].lastActivated);;    // Zeitstempel
