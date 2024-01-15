@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>pumpn Steuerung</title>
+  <title>Pumpen-Steuerung</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -10,23 +10,37 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="text-center my-4">pumpn-Steuerung</h1>
-
+    <h1 class="text-center my-4">Pumpen-Steuerung</h1>
+    <!-- Dropdown für Pumpendauer -->
     <div class="row mb-3 justify-content-center">
       <div class="col-6">
-        <button class="btn btn-primary btn-block" onclick="togglepump(1)">pump 1 einschalten (3 sek)</button>
+        <label for="pumpDuration1">Pumpendauer für Pumpe 1:</label>
+        <select id="pumpDuration1" class="form-control" onchange="setPumpDuration(1, this.value)">
+          <option value="5000">5 Sekunden</option>
+          <option value="10000">10 Sekunden</option>
+          <option value="15000">15 Sekunden</option>
+          <option value="20000">20 Sekunden</option>
+          <option value="25000">25 Sekunden</option>
+        </select>
+      </div>
+    </div>
+    
+    
+    <div class="row mb-3 justify-content-center">
+      <div class="col-6">
+        <button class="btn btn-primary btn-block" onclick="togglepump(1)">Pumpe 1 einschalten</button>
       </div>
     </div>
 
     <div class="row mb-3 justify-content-center">
       <div class="col-6">
-        <button class="btn btn-primary btn-block" onclick="togglepump(2)">pump 2 einschalten (3 sek)</button>
+        <button class="btn btn-primary btn-block" onclick="togglepump(2)">Pumpe 2 einschalten (100ml)</button>
       </div>
     </div>
 
     <p class="text-center">Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
     
-    <h1 class="text-center my-4">pumpn-Status</h1>
+    <h1 class="text-center my-4">Pumpen-Status</h1>
     <table class="table table-bordered" id="pumpStatus">
       <thead>
         <tr>

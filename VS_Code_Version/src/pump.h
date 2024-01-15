@@ -22,5 +22,6 @@ extern const unsigned long pumpDelay; // Verzögerung, nach der die pump ausgesc
 
 void togglepump(int pumpNumber); // Funktion zum Umschalten eines pump
 void checkpumps(); // Funktion zum ueberpruefen, ob die Verzögerungszeit fuer die pump abgelaufen ist. Wenn ja, schalte die pump aus.
+void setPumpDuration(int pumpNumber, unsigned long duration); // Funktion zum Setzen der Dauer, wie lange die Pumpe laufen soll
 
 

@@ -32,6 +32,22 @@ void setupRoutes(AsyncWebServer &server) {
     }
     });
 
+    // Route zum Setzen der Pumpendauer
+    server.on("/pump/duration", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("pump", true) && request->hasParam("duration", true)) { // Pruefe, ob beide Parameter vorhanden sind
+            String pumpParam = request->getParam("pump", true)->value(); // Hole den Wert des pump-Parameters(Nr. der Pumpe)
+            String durationParam = request->getParam("duration", true)->value(); // Hole den Wert des duration-Parameters
+            int pumpNumber = pumpParam.toInt(); // Konvertiere den pump-Parameter in eine Zahl
+            unsigned long duration = durationParam.toInt(); // Konvertiere den duration-Parameter in eine Zahl
+
+            setPumpDuration(pumpNumber, duration); // Setze die Pumpendauer
+
+            request->send(200, "text/plain", "Die Pumpendauer wurde aktualisiert.");
+        } else {
+            request->send(400, "text/plain", "Bad Request - Parameter fehlen.");
+        }
+    });
+
 
     // Route zum Abrufen des aktuellen Feuchtigkeitswerts
     server.on("/feuchtigkeit", HTTP_GET, [](AsyncWebServerRequest *request) {

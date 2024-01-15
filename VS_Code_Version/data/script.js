@@ -1,3 +1,6 @@
+
+
+
 // Funktion zum Umschalten der pumpn ueber einen HTTP-Request
 function togglepump(pump) {
   fetch('/pump/toggle', { // PUT-Request an den Server
@@ -61,6 +64,31 @@ function updatepumpStatus() {
   })
   .catch(error => console.error('Fehler beim Abrufen des pump-Status:', error));
 }
+
+// Funktion zum Setzen der Pumpendauer über einen HTTP-Request
+function setPumpDuration(pumpNumber, duration) {
+  fetch(`/pump/duration`, { // PUT-Request an den Server 
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded', // Formulardaten als Inhalt des Requests 
+    },
+    body: `pump=${pumpNumber}&duration=${duration}` // Sendet die Pumpe und die gewünschte Dauer
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Netzwerkantwort war nicht ok');
+    }
+    return response.text();
+  })
+  .then(text => {
+    console.log(text); // Log die Antwort vom Server
+    updatepumpStatus(); // Aktualisiert den Status der Pumpen, optional je nach Implementierung
+  })
+  .catch(error => {
+    console.error('Fehler beim Setzen der Pumpendauer:', error);
+  });
+}
+
 
 
 // Aktualisieren des pump-Status beim Laden der Seite

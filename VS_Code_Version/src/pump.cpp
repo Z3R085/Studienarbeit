@@ -19,6 +19,11 @@ void setuppumps() {
 // Verzögerungszeit fuer die pump
 const unsigned long pumpDelay = 2500; // 2.5 Sekunden
 
+// Setzt die Dauer, wie lange die Pumpe laufen soll.
+void setPumpDuration(int pumpNumber, unsigned long duration) {
+    pumps[pumpNumber - 1].duration = duration;
+}
+
 /*
 togglepump(int pumpNumber) schaltet die pump mit der uebergebenen Nummer um.
 */
@@ -49,7 +54,7 @@ void checkpumps() {
     // Durchlaufe jedes pump in der pumpns-Array
     for (int i = 0; i < sizeof(pumps)/sizeof(pumps[0]); ++i) {
         // Pruefe, ob das aktuelle pump eingeschaltet ist UND die festgelegte Verzögerungszeit abgelaufen ist.
-        if (pumps[i].isOn && (millis() - pumps[i].timer >= pumpDelay)) {
+        if (pumps[i].isOn && (millis() - pumps[i].timer >= pumps[i].duration)) {
             // Wenn ja, schalte die pump aus.
             digitalWrite(pumps[i].pin, LOW);
             // Aktualisiere den Status des pump in der Struktur, um anzuzeigen, dass es jetzt aus ist.
