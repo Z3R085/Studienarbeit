@@ -17,7 +17,7 @@ void setuppumps() {
 
 
 // Verzögerungszeit fuer die pump
-const unsigned long pumpDelay = 2500; // 2.5 Sekunden
+const unsigned long pumpDelay = 2500; // 2.5 Sekunden = 100ml Wasser
 
 // Setzt die Dauer, wie lange die Pumpe laufen soll.
 void setPumpDuration(int pumpNumber, unsigned long duration) {
