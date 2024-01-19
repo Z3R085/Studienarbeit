@@ -70,7 +70,7 @@ void setupRoutes(AsyncWebServer &server) {
     });
 
     // Route zum Setzen des Gießmodus
-    server.on("pump//mode", HTTP_PUT, [](AsyncWebServerRequest *request) {
+    server.on("/pump/mode", HTTP_PUT, [](AsyncWebServerRequest *request) {
         if (request->hasParam("mode", true)) {
             String modeParam = request->getParam("mode", true)->value();
             WateringMode mode = static_cast<WateringMode>(modeParam.toInt());
@@ -80,4 +80,12 @@ void setupRoutes(AsyncWebServer &server) {
             request->send(400, "text/plain", "Modus fehlt.");
         }
     });
+
+    // Route zum Abrufen des Gießmodus
+    server.on("/mode/get", HTTP_GET, [](AsyncWebServerRequest *request) {
+        WateringMode mode = getWateringMode(); // Funktion, die den aktuellen Modus abruft
+        String modeString = String(static_cast<int>(mode)); // Konvertiert Enum zu String
+        request->send(200, "text/plain", modeString);
+    });
+
 }

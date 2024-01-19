@@ -110,7 +110,45 @@ function changeWateringMode(selectedMode) {
   .catch(error => {
     console.error('Fehler beim Ändern des Gießmodus:', error);
   });
+  getCurrentWateringMode(); // Aktualisiert den Modus auf Webseite
 }
+// Funktion zum Abrufen des aktuellen Gießmodus
+function getCurrentWateringMode() {
+  fetch('/mode/get') // GET-Request an den Server
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Netzwerkantwort war nicht ok');
+    }
+    return response.text();
+  })
+  .then(mode => {
+    displayCurrentMode(mode); // Funktion, die den Modus in der Webseite anzeigt
+  })
+  .catch(error => {
+    console.error('Fehler beim Abrufen des aktuellen Gießmodus:', error);
+  });
+}
+// Funktion zum Anzeigen des aktuellen Gießmodus
+function displayCurrentMode(mode) {
+  // Zuerst alle Modi-Elemente ausblenden
+  document.getElementById('manualMode').style.display = 'none';
+  document.getElementById('scheduledMode').style.display = 'none';
+  document.getElementById('sensorBasedMode').style.display = 'none';
+
+  // Auswahl des Dropdown-Menüs auf den aktuellen Modus setzen
+  document.getElementById('wateringModeSelect').value = mode;
+
+  // Dann das Element des aktuellen Modus anzeigen
+  if (mode == '0') { // Manuell
+    document.getElementById('manualMode').style.display = 'block';
+  } else if (mode == '1') { // Zeitgesteuert
+    document.getElementById('scheduledMode').style.display = 'block';
+  } else if (mode == '2') { // Sensorbasiert
+    document.getElementById('sensorBasedMode').style.display = 'block';
+  }
+  
+}
+
 
 
 
@@ -118,6 +156,7 @@ function changeWateringMode(selectedMode) {
 // Aktualisieren des pump-Status beim Laden der Seite
 document.addEventListener('DOMContentLoaded', function() {
   updatepumpStatus();
+  getCurrentWateringMode();
 });
 
 
