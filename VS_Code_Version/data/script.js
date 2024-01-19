@@ -88,6 +88,30 @@ function setPumpDuration(pumpNumber, duration) {
     console.error('Fehler beim Setzen der Pumpendauer:', error);
   });
 }
+// Funktion zum Ändern des Gießmodus
+function changeWateringMode(selectedMode) {
+  fetch('/pump/mode', { 
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: 'mode=' + selectedMode
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Netzwerkantwort war nicht ok');
+    }
+    return response.text();
+  })
+  .then(text => {
+    console.log(text); // Log die Antwort vom Server
+    // Optional: Aktualisieren Sie die Benutzeroberfläche, um den neuen Modus anzuzeigen
+  })
+  .catch(error => {
+    console.error('Fehler beim Ändern des Gießmodus:', error);
+  });
+}
+
 
 
 

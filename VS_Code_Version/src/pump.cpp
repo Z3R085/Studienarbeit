@@ -1,10 +1,10 @@
 #include "pump.h"
 
 // Initialisieren der pumpn-Strukturen
-const int numpumps = 2; // Anzahl der pumpn
+const int numpumps = 1; // Anzahl der pumpn
 pump pumps[numpumps] = {
-    {pump1_PIN, false, 0,"0",0},
-    {pump2_PIN, false, 0,"0",0}
+    {pump1_PIN, false, 0,"0",2500},
+    //{pump2_PIN, false, 0,"0",2500}
 };
 
 //Setup fuer pump-Pins
@@ -14,6 +14,8 @@ void setuppumps() {
         digitalWrite(pumps[i].pin, LOW);
     }
 }
+
+WateringMode currentMode = WateringMode::MANUAL; // Startet im manuellen Modus
 
 
 // Verzögerungszeit fuer die pump
@@ -63,6 +65,16 @@ void checkpumps() {
 
         }
     }
+}
+
+// Setzt den Bewaesserungsmodus
+void setWateringMode(WateringMode mode) {
+    currentMode = mode;
+}
+
+//Gibt den Bewaesserungsmodus zurueck
+WateringMode getWateringMode() {
+    return currentMode;
 }
 
 

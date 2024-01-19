@@ -68,4 +68,16 @@ void setupRoutes(AsyncWebServer &server) {
         serializeJson(doc, response); 
         request->send(200, "application/json", response); // Senden der JSON-Datei
     });
+
+    // Route zum Setzen des Gießmodus
+    server.on("pump//mode", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("mode", true)) {
+            String modeParam = request->getParam("mode", true)->value();
+            WateringMode mode = static_cast<WateringMode>(modeParam.toInt());
+            setWateringMode(mode);
+            request->send(200, "text/plain", "Gießmodus aktualisiert.");
+        } else {
+            request->send(400, "text/plain", "Modus fehlt.");
+        }
+    });
 }

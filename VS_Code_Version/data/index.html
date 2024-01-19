@@ -11,6 +11,19 @@
 <body>
   <div class="container">
     <h1 class="text-center my-4">Pumpen-Steuerung</h1>
+
+    <!-- Auswahl des Gießmodus -->
+      <div class="row mb-3 justify-content-center">
+        <div class="col-6">
+          <label for="wateringModeSelect">Wählen Sie den Gießmodus:</label>
+          <select id="wateringModeSelect" class="form-control" onchange="changeWateringMode(this.value)">
+            <option value="0">Manuell</option>
+            <option value="1">Zeitgesteuert</option>
+            <option value="2">Sensorbasiert</option>
+          </select>
+        </div>
+      </div>
+
     <!-- Dropdown für Pumpendauer -->
     <div class="row mb-3 justify-content-center">
       <div class="col-6">
@@ -24,6 +37,24 @@
         </select>
       </div>
     </div>
+
+      <!-- Zeitgesteuerter Modus (versteckt) -->
+    <div id="scheduledMode" class="mode" style="display: none;">
+    <!-- Inhalt für zeitgesteuerten Modus -->
+    <label for="schedule">Bewässerungsplan:</label>
+    <input type="date" id="scheduleDate">
+    <input type="time" id="scheduleTime">
+
+
+    <button class="btn btn-primary" onclick="setSchedule()">Zeitplan festlegen</button>
+  </div>
+  <!-- Sensorbasierter Modus (versteckt) -->
+  <div id="sensorBasedMode" class="mode" style="display: none;">
+    <!-- Inhalt für sensorbasierten Modus -->
+    <p>Sensorbasierte Bewässerung ist aktiviert. Die Pflanzen werden automatisch bewässert, wenn der Boden zu trocken ist.</p>
+  </div>
+
+  
     
     
     <div class="row mb-3 justify-content-center">
@@ -32,11 +63,11 @@
       </div>
     </div>
 
-    <div class="row mb-3 justify-content-center">
+    <!-- <div class="row mb-3 justify-content-center">
       <div class="col-6">
         <button class="btn btn-primary btn-block" onclick="togglepump(2)">Pumpe 2 einschalten (100ml)</button>
       </div>
-    </div>
+    </div> -->
 
     <p class="text-center">Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
     
