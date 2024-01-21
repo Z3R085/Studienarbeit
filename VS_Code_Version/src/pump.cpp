@@ -1,13 +1,13 @@
 #include "pump.h"
 
 // Initialisieren der pumpn-Strukturen
-const int numpumps = 1; // Anzahl der pumpn
+const int numpumps = 1; // Anzahl der Pumpen
 pump pumps[numpumps] = {
     {pump1_PIN, false, 0,"0",2500},
     //{pump2_PIN, false, 0,"0",2500}
 };
 
-//Setup fuer pump-Pins
+//Setup fuer Pumpen-Pins
 void setuppumps() {
     for (int i = 0; i < numpumps; ++i) {
         pinMode(pumps[i].pin, OUTPUT);
@@ -18,7 +18,7 @@ void setuppumps() {
 WateringMode currentMode = WateringMode::MANUAL; // Startet im manuellen Modus
 
 
-// Verzögerungszeit fuer die pump
+// Verzögerungszeit fuer die Pumpe
 const unsigned long pumpDelay = 2500; // 2.5 Sekunden = 100ml Wasser
 
 // Setzt die Dauer, wie lange die Pumpe laufen soll.
@@ -27,7 +27,7 @@ void setPumpDuration(int pumpNumber, unsigned long duration) {
 }
 
 /*
-togglepump(int pumpNumber) schaltet die pump mit der uebergebenen Nummer um.
+togglepump(int pumpNumber) schaltet die Pumpe mit der uebergebenen Nummer um.
 */
 void togglepump(int pumpNumber) {
     // Zugriff auf die richtige pump basierend auf der uebergebenen Nummer
@@ -48,18 +48,18 @@ void togglepump(int pumpNumber) {
     }
 }
 
-/*  checkpumps ueberprueft den Status jedes pump in der pumpns-Array.
+/*  checkpumps ueberprueft den Status jeder Pumpe in der pumps-Array.
     Diese Funktion wird in der loop() regelmäßig aufgerufen, um zu pruefen, ob es Zeit ist,
     ein eingeschaltetes pump auszuschalten.
  */
 void checkpumps() {
-    // Durchlaufe jedes pump in der pumpns-Array
+    // Durchlaufe jede Pumpe in der pumps-Array
     for (int i = 0; i < sizeof(pumps)/sizeof(pumps[0]); ++i) {
         // Pruefe, ob das aktuelle pump eingeschaltet ist UND die festgelegte Verzögerungszeit abgelaufen ist.
         if (pumps[i].isOn && (millis() - pumps[i].timer >= pumps[i].duration)) {
-            // Wenn ja, schalte die pump aus.
+            // Wenn ja, schalte die Pumpe aus.
             digitalWrite(pumps[i].pin, LOW);
-            // Aktualisiere den Status des pump in der Struktur, um anzuzeigen, dass es jetzt aus ist.
+            // Aktualisiere den Status der Pumpe in der Struktur, um anzuzeigen, dass es jetzt aus ist.
             pumps[i].isOn = false;
             
 

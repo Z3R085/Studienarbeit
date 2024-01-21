@@ -1,3 +1,4 @@
 {
-  "C_Cpp.errorSquiggles": "disabled"
+  "C_Cpp.errorSquiggles": "disabled",
+  "cmake.sourceDirectory": "/home/florian/Documents/DHBW/Studienarbeit/Studienarbeit/VS_Code_Version/.pio/libdeps/esp32dev/ArduinoJson"
 }
