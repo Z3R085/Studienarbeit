@@ -13,86 +13,148 @@
     <h1 class="text-center my-4">Pumpen-Steuerung</h1>
 
     <!-- Auswahl des Gießmodus -->
-      <div class="row mb-3 justify-content-center">
-        <div class="col-6">
-          <label for="wateringModeSelect">Wählen Sie den Gießmodus:</label>
-          <select id="wateringModeSelect" class="form-control" onchange="changeWateringMode(this.value)">
-            <option value="0">Manuell</option>
-            <option value="1">Zeitgesteuert</option>
-            <option value="2">Sensorbasiert</option>
-          </select>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Gießmodus auswählen</h5>
+        <div class="row justify-content-center">
+          <div class="col-6">
+            <select id="wateringModeSelect" class="form-control" onchange="changeWateringMode(this.value)">
+              <option value="0">Manuell</option>
+              <option value="1">Zeitgesteuert</option>
+              <option value="2">Sensorbasiert</option>
+            </select>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div id="currentModeDisplay"></div>
-      <div id="manualMode" class="mode">
+    <div id="currentModeDisplay"></div>
+
     <!-- Manueller Modus-->
-    <!-- Dropdown für Pumpendauer -->
-    <div class="row mb-3 justify-content-center">
-      <div class="col-6">
-        <label for="pumpDuration1">Pumpendauer für Pumpe 1:</label>
-        <select id="pumpDuration1" class="form-control" onchange="setPumpDuration(1, this.value)">
-          <option value="2500">100 ml</option>
-          <option value="5000">200 ml</option>
-          <option value="12500">500 ml </option>
-          <option value="18750">750 ml</option>
-          <option value="25000">1 L</option>
-        </select>
+    <div id="manualMode" class="mode">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Manueller Modus</h5>
+          <div class="row justify-content-center">
+            <div class="col-6">
+              <label for="pumpDuration1">Pumpendauer für Pumpe 1:</label>
+              <select id="pumpDuration1" class="form-control" onchange="setPumpDuration(1, this.value)">
+                <option value="2500">100 ml</option>
+                <option value="5000">200 ml</option>
+                <option value="12500">500 ml</option>
+                <option value="18750">750 ml</option>
+                <option value="25000">1 L</option>
+              </select>
+            </div>
+          </div>
+          <div class="row justify-content-center mt-3">
+            <div class="col-6">
+              <button class="btn btn-primary btn-block" onclick="togglepump(1)">Pumpe 1 einschalten</button>
+            </div>
+          </div>
+
+          <p class="text-center">Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
+        </div>
       </div>
     </div>
 
-     
+    <!-- Zeitgesteuerter Modus -->
+    <div id="scheduledMode" class="mode" style="display: none;">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Zeitgesteuerten Gießplan erstellen</h5>
+          <form id="scheduleForm">
+              <div class="form-group">
+                <label>Wiederholung:</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="scheduleRepeat" id="repeatDaily" value="daily" checked>
+                  <label class="form-check-label" for="repeatDaily">Täglich</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="scheduleRepeat" id="repeatWeekly" value="weekly">
+                  <label class="form-check-label" for="repeatWeekly">An bestimmten Tagen der Woche</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="scheduleRepeat" id="repeatMonthly" value="monthly">
+                  <label class="form-check-label" for="repeatMonthly">Monatlich</label>
+                </div>
+              </div>
 
-  
-    
-    
-    <div class="row mb-3 justify-content-center">
-      <div class="col-6">
-        <button class="btn btn-primary btn-block" onclick="togglepump(1)">Pumpe 1 einschalten</button>
+              <div id="weeklyOptions" style="display:none;">
+                <div class="form-group">
+                  <label>Wählen Sie die Tage der Woche:</label>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="monday" value="0">
+                    <label class="form-check-label" for="monday">Montag</label>
+                    <input class="form-check-input" type="checkbox" id="tuesday" value="1">
+                    <label class="form-check-label" for="tuesday">Dienstag</label>
+                    <input class="form-check-input" type="checkbox" id="wednesday" value="2">
+                    <label class="form-check-label" for="wednesday">Mittwoch</label>
+                    <input class="form-check-input" type="checkbox" id="thursday" value="3">
+                    <label class="form-check-label" for="thursday">Donnerstag</label>
+                    <input class="form-check-input" type="checkbox" id="friday" value="4">
+                    <label class="form-check-label" for="friday">Freitag</label>
+                    <input class="form-check-input" type="checkbox" id="saturday" value="5">
+                    <label class="form-check-label" for="saturday">Samstag</label>
+                    <input class="form-check-input" type="checkbox" id="sunday" value="6">
+                    <label class="form-check-label" for="sunday">Sonntag</label>
+                
+
+                  </div>
+                </div>
+              </div>
+              
+            <div class="form-group">
+              <label for="scheduleTimeOfDay">Tageszeit wählen:</label>
+              <select id="scheduleTimeOfDay" class="form-control">
+                <option value="morning">Morgens</option>
+                <option value="noon">Mittags</option>
+                <option value="evening">Abends</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="pumpDuration1">Pumpendauer für Pumpe 1:</label>
+              <select id="pumpDuration1" class="form-control" onchange="setPumpDuration(1, this.value)">
+                <option value="2500">100 ml</option>
+                <option value="5000">200 ml</option>
+                <option value="12500">500 ml</option>
+                <option value="18750">750 ml</option>
+                <option value="25000">1 L</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="setSchedule()">Plan speichern</button>
+          </form>
+        </div>
       </div>
-
-      
     </div>
 
-    <!-- <div class="row mb-3 justify-content-center">
-      <div class="col-6">
-        <button class="btn btn-primary btn-block" onclick="togglepump(2)">Pumpe 2 einschalten (100ml)</button>
-      </div>
-    </div> -->
-
-    <p class="text-center">Feuchtigkeit: <span id="feuchtigkeit">Lade...</span></p>
-  </div>
-
-     <!-- Zeitgesteuerter Modus -->
-     <div id="scheduledMode" class="mode" style="display: none;">
-      <!-- Inhalt für zeitgesteuerten Modus -->
-      <label for="schedule">Bewässerungsplan:</label>
-      <input type="date" id="scheduleDate">
-      <input type="time" id="scheduleTime">
-  
-  
-      <button class="btn btn-primary" onclick="setSchedule()">Zeitplan festlegen</button>
-    </div>
     <!-- Sensorbasierter Modus -->
     <div id="sensorBasedMode" class="mode" style="display: none;">
-      <!-- Inhalt für sensorbasierten Modus -->
-      <p>Sensorbasierte Bewässerung ist aktiviert. Die Pflanzen werden automatisch bewässert, wenn der Boden zu trocken ist.</p>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Sensorbasierte Bewässerung</h5>
+          <p>Die sensorbasierte Bewässerung ist aktiviert. Die Pflanzen werden automatisch bewässert, wenn der Boden zu trocken ist.</p>
+        </div>
+      </div>
     </div>
 
-    
-    
-    <h1 class="text-center my-4">Pumpen-Status</h1>
-    <table class="table table-bordered" id="pumpStatus">
-      <thead>
-        <tr>
-          <th scope="col">Nummer</th>
-          <th scope="col">Letzte Aktivierung</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Dynamische Inhalte -->
-      </tbody>
-    </table>
+    <!-- Pumpen-Status -->
+    <div class="card my-4">
+      <div class="card-body">
+        <h5 class="card-title">Pumpen-Status</h5>
+        <table class="table table-bordered" id="pumpStatus">
+          <thead>
+            <tr>
+              <th scope="col">Nummer</th>
+              <th scope="col">Letzte Aktivierung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dynamische Inhalte -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

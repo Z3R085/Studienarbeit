@@ -18,8 +18,7 @@ void setuppumps() {
 WateringMode currentMode = WateringMode::MANUAL; // Startet im manuellen Modus
 
 
-// Verzögerungszeit fuer die Pumpe
-const unsigned long pumpDelay = 2500; // 2.5 Sekunden = 100ml Wasser
+
 
 // Setzt die Dauer, wie lange die Pumpe laufen soll.
 void setPumpDuration(int pumpNumber, unsigned long duration) {

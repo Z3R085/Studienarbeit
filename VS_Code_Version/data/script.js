@@ -148,16 +148,39 @@ function displayCurrentMode(mode) {
   }
   
 }
+function setSchedule() {
+//TODO
+}
 
 
 
-
-
-// Aktualisieren des pump-Status beim Laden der Seite
 document.addEventListener('DOMContentLoaded', function() {
+  // Initialisierungsfunktionen beim Laden der Seite
   updatepumpStatus();
   getCurrentWateringMode();
+
+  // Event-Listener für Radiobuttons
+  document.querySelectorAll('input[name="scheduleRepeat"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      toggleWeeklyOptions();
+    });
+  });
+
+  
+  toggleWeeklyOptions();
 });
+
+// Funktion zum Ein-/Ausblenden der #weeklyOptions
+function toggleWeeklyOptions() {
+  var weeklyOptions = document.getElementById('weeklyOptions');
+  var selectedOption = document.querySelector('input[name="scheduleRepeat"]:checked').value;
+  if (selectedOption === 'weekly') {
+    weeklyOptions.style.display = 'block';
+  } else {
+    weeklyOptions.style.display = 'none';
+  }
+}
+
 
 
 
