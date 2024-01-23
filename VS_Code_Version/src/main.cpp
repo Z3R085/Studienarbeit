@@ -47,5 +47,9 @@ void loop() {
   // ueberpruefen, ob die Verzögerungszeit fuer pump abgelaufen ist. Wenn ja, schalte die pump aus.
   checkpumps();
 
+
+  // Pruefe, ob es Zeit ist, die Pumpe zu aktivieren. 
+  //TODO: Nur einmal die Stunde aufrufen 
+  checkAndActivatePump();
   
 }

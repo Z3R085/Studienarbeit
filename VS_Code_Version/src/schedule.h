@@ -1,34 +1,27 @@
-// schedule.h
-#include <vector>
+#pragma once
 #include <ctime>
+#include "pump.h"
 
-
-// Klasse für die Zeit des Tages
-enum class TimeOfDay {
-    MORNING,
-    NOON,
-    EVENING
-};
-// Klasse für einen Eintrag im Bewässerungsplan
-struct ScheduleEntry {
-    int dayOfWeek;  // 0 = Sonntag, 1 = Montag, ..., 6 = Samstag
-    TimeOfDay timeOfDay;
+class ScheduleEntry {
+public:
+    std::vector<int> daysOfWeek; // 0 = Montag, 1 = Dienstag, ..., 6 = Sonntag
+    std::string timeOfDay; // "morning", "noon", "evening"
     bool repeatWeekly;
     bool repeatMonthly;
 
-  ScheduleEntry(int dow, TimeOfDay tod, bool weekly, bool monthly)
-    : dayOfWeek(dow), timeOfDay(tod), repeatWeekly(weekly), repeatMonthly(monthly) {}
+    // Konstruktor mit Initialisierungsliste 
+    ScheduleEntry(const std::vector<int>& dow, const std::string& tod, bool weekly, bool monthly)
+        : daysOfWeek(dow), timeOfDay(tod), repeatWeekly(weekly), repeatMonthly(monthly) {}
 };
 
-//Klasse für den Bewässerungsplan
 class WateringSchedule {
- public:
-    void addScheduleEntry(const ScheduleEntry& entry);
-    void checkAndActivatePump(int pumpNumber);
-    bool isTimeOfDay(tm *currentTm, TimeOfDay timeOfDay);
-    bool isFirstWeekOfMonth(tm *currentTm);
+public:
+    void setScheduleEntry(const ScheduleEntry& entry);
+    void checkAndActivatePump();
 
- private:
-    std::vector<ScheduleEntry> scheduleEntries;
-    time_t lastChecked;
+private:
+    ScheduleEntry* currentScheduleEntry; // Zeiger auf das aktuelle ScheduleEntry-Objekt
+    time_t lastChecked = 0;
+    bool isTimeForWatering(const ScheduleEntry& entry, const tm& currentTm);
+    bool isFirstWeekOfMonth(const tm* currentTm);
 };

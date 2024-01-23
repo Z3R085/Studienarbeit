@@ -1,6 +1,7 @@
 #include "routes.h"
 #include "pump.h" // Fuer togglepump
 #include "sensor.h" // Fuer readSensor
+#include "schedule.h" // Fuer setPumpDuration
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 void setupRoutes(AsyncWebServer &server) {
@@ -87,5 +88,12 @@ void setupRoutes(AsyncWebServer &server) {
         String modeString = String(static_cast<int>(mode)); // Konvertiert Enum zu String
         request->send(200, "text/plain", modeString);
     });
+
+    // Vorausgesetzt, WateringSchedule und ScheduleEntry sind bereits definiert
+extern WateringSchedule wateringSchedule; // Global definiertes Objekt für den Zeitplan
+
+
+
+
 
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include <Arduino.h>
 void setuppumps(); // Funktion zum Setup der pumpn-Pins
 
@@ -33,5 +34,6 @@ void checkpumps(); // Funktion zum ueberpruefen, ob die Verzögerungszeit fuer d
 void setPumpDuration(int pumpNumber, unsigned long duration); // Funktion zum Setzen der Dauer, wie lange die Pumpe laufen soll
 void setWateringMode(WateringMode mode); // Funktion zum Setzen des Bewaesserungsmodus
 WateringMode getWateringMode(); // Funktion zum Abrufen des Bewaesserungsmodus
+
 
 

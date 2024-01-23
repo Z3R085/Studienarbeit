@@ -149,8 +149,53 @@ function displayCurrentMode(mode) {
   
 }
 function setSchedule() {
-//TODO
+  // Erfassen der Wiederholungseinstellung
+  var repeatOption = document.querySelector('input[name="scheduleRepeat"]:checked').value;
+
+  // Erfassen der Tageszeiteinstellung
+  var timeOfDay = document.getElementById('scheduleTimeOfDay').value;
+
+  
+
+  // Erfassen der Wochentage, falls wöchentlich ausgewählt wurde
+  var daysOfWeek = [];
+  if (repeatOption === 'weekly') {
+    var checkboxes = document.querySelectorAll('#weeklyOptions input[type="checkbox"]:checked');
+    checkboxes.forEach(function(checkbox) {
+      daysOfWeek.push(checkbox.value);
+    });
+  }
+
+  // Erstellen eines Objekts mit den gesammelten Daten
+  var scheduleData = {
+    repeat: repeatOption,
+    daysOfWeek: daysOfWeek,
+    timeOfDay: timeOfDay
+  };
+
+  // Hier müssen Sie die URL und Methode entsprechend Ihrer Server-Konfiguration anpassen
+  fetch('/mode/set-schedule', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(scheduleData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Netzwerkantwort war nicht ok');
+    }
+    return response.text();
+  })
+  .then(text => {
+    console.log(text); // Log die Antwort vom Server
+    
+  })
+  .catch(error => {
+    console.error('Fehler beim Speichern des Gießplans:', error);
+  });
 }
+
 
 
 
