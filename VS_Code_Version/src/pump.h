@@ -9,7 +9,7 @@ void setuppumps(); // Funktion zum Setup der pumpn-Pins
 struct pump {
     int pin; // Pin, an dem die pump angeschlossen ist
     bool isOn; // Zustand des pump (ein- oder ausgeschaltet)
-    unsigned long timer; // Zeit, zu der die pump ausgeschaltet werden soll
+    unsigned long timer; // Zeit, zu der die pump eingeschaltet wurde
     String lastActivated; // Zeit, zu der die pump zuletzt eingeschaltet wurde
     unsigned long duration; // Dauer, wie lange die Pumpe laufen soll
 };
