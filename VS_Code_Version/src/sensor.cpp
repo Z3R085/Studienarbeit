@@ -6,7 +6,7 @@
 
 void settupSensor() {
     // Setup fuer Feuchtigkeitssensor-Pin
-    pinMode(FEUCHTIGKEIT_PIN, INPUT); //Modul selbst erstellen
+    pinMode(FEUCHTIGKEIT_PIN, INPUT); 
 }
 
 String readSensor() {
