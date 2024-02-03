@@ -4,6 +4,11 @@
 /// Pinbelegung
 #define FEUCHTIGKEIT_PIN 34
 
+void settupSensor() {
+    // Setup fuer Feuchtigkeitssensor-Pin
+    pinMode(FEUCHTIGKEIT_PIN, INPUT); //Modul selbst erstellen
+}
+
 String readSensor() {
     // Auslesen des Sensorwertes
     int sensorValue = analogRead(FEUCHTIGKEIT_PIN);  

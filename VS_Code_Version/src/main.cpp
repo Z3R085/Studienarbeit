@@ -9,8 +9,6 @@
 #include <pump.h>
 #include <routes.h>
 
-//Feuchtigkeitssensor-Pin
-#define FEUCHTIGKEIT_PIN 34
 
 // Asynchroner Web-Servers auf Port 80
 AsyncWebServer server(80);
@@ -34,7 +32,7 @@ void setup() {
   setuppumps();
 
   // Setup fuer Feuchtigkeitssensor-Pin
-  pinMode(FEUCHTIGKEIT_PIN, INPUT); //Modul selbst erstellen
+  setupSensor();
   
   /// Initialisiere die Webserver-Routen
     setupRoutes(server);
