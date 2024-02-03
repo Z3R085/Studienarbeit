@@ -89,8 +89,7 @@ void setupRoutes(AsyncWebServer &server) {
         request->send(200, "text/plain", modeString);
     });
 
-    // Vorausgesetzt, WateringSchedule und ScheduleEntry sind bereits definiert
-extern WateringSchedule wateringSchedule; // Global definiertes Objekt für den Zeitplan
+
 
 
 

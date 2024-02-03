@@ -5,7 +5,7 @@ void automaticIrrigation() {
     // Auslesen der Sensorwerte
     float tankLevel = getTankLevel(); //Muss noch eingebaut und implementiert werden
     float temperature = getTemperature(); //Muss noch eingebaut und implementiert werden
-    float soilMoisture = getSoilMoisture();
+    float soilMoisture = readSensor().toFloat();
 
     // Entscheidungsbaum 
     if (tankLevel > 25) {

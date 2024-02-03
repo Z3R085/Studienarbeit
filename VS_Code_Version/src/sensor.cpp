@@ -4,7 +4,7 @@
 /// Pinbelegung
 #define FEUCHTIGKEIT_PIN 34
 
-void settupSensor() {
+void setupSensor() {
     // Setup fuer Feuchtigkeitssensor-Pin
     pinMode(FEUCHTIGKEIT_PIN, INPUT); 
 }
@@ -21,4 +21,12 @@ String readSensor() {
     sensorValue = map(sensorValue, maxValue, minValue, 0, 100); 
 
     return String(sensorValue);
+}
+
+float getTankLevel() {
+    return 100;
+}
+
+float getTemperature() {
+    return 20;
 }
