@@ -49,15 +49,27 @@ void setup() {
 }
 
 void loop() {
-  // ueberpruefen, ob die Verzögerungszeit fuer pump abgelaufen ist. Wenn ja, schalte die pump aus.
-  checkpumps();
-
-  unsigned long currentTime = millis(); // Aktuelle Zeit seit Programmstart in Millisekunden
-  if (currentTime - lastCheck >= interval) { // Prüft, ob das Intervall vergangen ist
-    checkAndRunEvents(); // Funktion aufrufen
-    lastCheck = currentTime; // Aktualisiert den Zeitpunkt der letzten Überprüfung
+  
+  switch (currentMode)
+  {
+  case WateringMode::MANUAL:
+    // ueberpruefen, ob die Verzögerungszeit fuer pump abgelaufen ist. Wenn ja, schalte die pump aus.
+    checkpumps();
+    Serial.println("Manueller Bewässerungsmodus");
+    break;
+  case WateringMode::SCHEDULED: {
+  unsigned long currentTime = millis();
+  Serial.println("Zeitgesteuerter Bewässerungsmodus");
+  if (currentTime - lastCheck >= interval) {
+    checkAndRunEvents();
+    lastCheck = currentTime;
   }
+  break;
+}
 
-
- 
+  default:
+    Serial.println("Unbekannter Bewässerungsmodus");
+    break;
+  }
+  
 }
