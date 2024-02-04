@@ -55,11 +55,11 @@ void loop() {
   case WateringMode::MANUAL:
     // ueberpruefen, ob die Verzögerungszeit fuer pump abgelaufen ist. Wenn ja, schalte die pump aus.
     checkpumps();
-    Serial.println("Manueller Bewässerungsmodus");
+    
     break;
   case WateringMode::SCHEDULED: {
   unsigned long currentTime = millis();
-  Serial.println("Zeitgesteuerter Bewässerungsmodus");
+  
   if (currentTime - lastCheck >= interval) {
     checkAndRunEvents();
     lastCheck = currentTime;
