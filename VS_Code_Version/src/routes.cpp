@@ -4,6 +4,7 @@
 #include "schedule.h" // Fuer setPumpDuration
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
+
 void setupRoutes(AsyncWebServer &server) {
     // Route fuer die Wurzel-URL, die das HTML aus einer Datei zurueckgibt
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -89,10 +90,75 @@ void setupRoutes(AsyncWebServer &server) {
         request->send(200, "text/plain", modeString);
     });
 
+    // Route zum Setzen des Zeitplans
+    server.on("/mode/set-schedule", HTTP_POST, [](AsyncWebServerRequest *request) {}, NULL, [](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
+    // Erstelle ein temporäres JsonDocument
+    // Größe des JsonDocument anpassen, um sicherzustellen, dass es groß genug ist
+    DynamicJsonDocument doc(1024);
+    
+    // Parsen des JSON-Daten, die im Body der POST-Anfrage enthalten sind
+    DeserializationError error = deserializeJson(doc, (const char*)data);
+    if (error) {
+      request->send(400, "application/json", "{\"message\":\"JSON Parsing fehlgeschlagen\"}");
+      return;
+    }
+
+    // Extrahiere Daten aus dem JsonDocument
+    const char* repeatOption = doc["repeat"];
+    const char* timeOfDay = doc["timeOfDay"];
+    JsonArray daysOfWeekArray = doc["daysOfWeek"];
+
+    Serial.println(repeatOption);
+    Serial.println(timeOfDay);
+    
 
 
 
+    // Erstelle eine neue WateringEvent-Instanz
+    WateringEvent event;
+    
+    if (strcmp(repeatOption, "weekly") == 0) { 
+      event.repeat = RepeatInterval::weekly;
+      // Fülle den daysOfWeek Vektor
+      for (JsonVariant v : daysOfWeekArray) {
+        event.daysOfWeek.push_back(v.as<bool>()); 
+    }
 
+    } else if (strcmp(repeatOption, "daily") == 0) {
+      event.repeat = RepeatInterval::daily;
+    } else {
+      // Standardwert oder Fehlerbehandlung
+      event.repeat = RepeatInterval::daily;
+      Serial.println("Ungültige Wiederholungsoption");
+    }
 
+    if (strcmp(timeOfDay, "morning") == 0) {
+      event.time.tm_hour = 8; event.time.tm_min = 0;
+      Serial.println("Morgen");
+    } else if (strcmp(timeOfDay, "noon") == 0) {
+      event.time.tm_hour = 13; event.time.tm_min = 0;
+    } else if (strcmp(timeOfDay, "evening") == 0) {
+      event.time.tm_hour = 19; event.time.tm_min = 0;
+    } else {
+      // Standardwert oder Fehlerbehandlung
+      event.time.tm_hour = 0; event.time.tm_min = 0;
+      Serial.println("Ungültige Zeitangabe");
+    }
+  
+    // Setze die Dauer auf 10 Sekunden
+    event.duration = 10;
+    // Füge das Ereignis zum ScheduleManager hinzu
+    addEvent(event);
 
+    // Sende eine Bestätigung zurück
+    request->send(200, "application/json", "{\"message\":\"Zeitplan gesetzt\"}");
+  });
 }
+
+
+
+
+
+
+
+

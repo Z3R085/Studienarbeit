@@ -8,10 +8,17 @@
 #include <network.h>
 #include <pump.h>
 #include <routes.h>
+#include <schedule.h>
+
 
 
 // Asynchroner Web-Servers auf Port 80
 AsyncWebServer server(80);
+
+// Zeitplan-Manager
+
+unsigned long lastCheck = 0; // Speichert den Zeitpunkt der letzten Überprüfung
+const unsigned long interval = 60000; // Überprüfungsintervall in Millisekunden (1 Minute)
 
 
 
@@ -35,7 +42,7 @@ void setup() {
   setupSensor();
   
   /// Initialisiere die Webserver-Routen
-    setupRoutes(server);
+    setupRoutes(server);;
   
   // Starten des Webservers
   server.begin();
@@ -45,5 +52,12 @@ void loop() {
   // ueberpruefen, ob die Verzögerungszeit fuer pump abgelaufen ist. Wenn ja, schalte die pump aus.
   checkpumps();
 
-  
+  unsigned long currentTime = millis(); // Aktuelle Zeit seit Programmstart in Millisekunden
+  if (currentTime - lastCheck >= interval) { // Prüft, ob das Intervall vergangen ist
+    checkAndRunEvents(); // Funktion aufrufen
+    lastCheck = currentTime; // Aktualisiert den Zeitpunkt der letzten Überprüfung
+  }
+
+
+ 
 }
