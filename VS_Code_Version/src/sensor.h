@@ -1,3 +1,4 @@
+#pragma once
 #include <Arduino.h>
 #define FEUCHTIGKEIT_PIN 34
 

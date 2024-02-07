@@ -138,7 +138,7 @@ void setupRoutes(AsyncWebServer &server) {
     } else if (strcmp(timeOfDay, "noon") == 0) {
       event.time.tm_hour = 13; event.time.tm_min = 0;
     } else if (strcmp(timeOfDay, "evening") == 0) {
-      event.time.tm_hour = 19; event.time.tm_min = 0;
+      event.time.tm_hour = 18; event.time.tm_min = 0;
     } else {
       // Standardwert oder Fehlerbehandlung
       event.time.tm_hour = 0; event.time.tm_min = 0;
