@@ -1,6 +1,6 @@
 #include "routes.h"
 #include "pump.h" // Fuer togglepump
-#include "sensor.h" // Fuer readSensor
+#include "soil_sensor.h" // Fuer readSensor
 #include "schedule.h" // Fuer setPumpDuration
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
@@ -53,7 +53,7 @@ void setupRoutes(AsyncWebServer &server) {
 
     // Route zum Abrufen des aktuellen Feuchtigkeitswerts
     server.on("/feuchtigkeit", HTTP_GET, [](AsyncWebServerRequest *request) {
-        String feuchtigkeit = readSensor();
+        String feuchtigkeit = readsoil_sensor();
         request->send(200, "text/plain", feuchtigkeit);
     });
 

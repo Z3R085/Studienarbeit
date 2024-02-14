@@ -1,24 +1,33 @@
 #include "automatic_irrigation.h"
-#include <sensor.h>
+#include <soil_sensor.h>
 #include <pump.h>
+#include <Arduino.h>
+#include <string.h>
 void automaticIrrigation() {
     // Auslesen der Sensorwerte
-    float tankLevel = getTankLevel(); //Muss noch eingebaut und implementiert werden
-    float temperature = getTemperature(); //Muss noch eingebaut und implementiert werden
-    float soilMoisture = readSensor().toFloat();
+    float tankLevel = getTankLevel(); // Implementierung benötigt
+    float temperature = getTemperature(); // Implementierung benötigt
+    float soilMoisture = readsoil_sensor().toFloat();
 
-    // Entscheidungsbaum 
-    if (tankLevel > 25) {
-        if (temperature < 40) {
-            if (soilMoisture < 90) {
-                togglepump(1);
-            } else {
-                togglepump(1);
-            }
-        } else {
-            togglepump(1);
+    Serial.println("Automatic Irrigation");
+
+    // Bedingungen für das Einschalten der Pumpe
+    if (tankLevel > 25 && temperature < 40 && soilMoisture < 90) {
+        Serial.println("Es ist Zeit zu gießen!");
+        Serial.println("Status der Pumpe: " + String(pumps[0].isOn));
+        // Einschalten der Pumpe, wenn sie noch nicht eingeschaltet ist
+        if (!pumps[0].isOn){ 
+            togglepump(1); // Zustand der Pumpe umschalten
+            Serial.println("Pumpe eingeschaltet");
+
         }
-    } else {
-        togglepump(1);
+    } 
+    else {
+        Serial.println("Es ist nicht Zeit zu gießen!");
+        // Ausschalten der Pumpe, wenn sie eingeschaltet ist
+        if (pumps[0].isOn) { // Überprüfen, ob die Pumpe eingeschaltet ist
+            togglepump(1); // Zustand der Pumpe umschalten
+            Serial.println("Pumpe ausgeschaltet");
+        }
     }
 }

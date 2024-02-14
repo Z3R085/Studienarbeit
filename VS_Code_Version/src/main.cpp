@@ -1,14 +1,16 @@
 #include <Arduino.h>
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
-#include <AsyncTCP.h> 
-
+#include <AsyncTCP.h>
 #include <timesync.h>
-#include <sensor.h>	
+#include <soil_sensor.h>	
 #include <network.h>
 #include <pump.h>
 #include <routes.h>
 #include <schedule.h>
+#include <database.h>
+#include <automatic_irrigation.h>
+
 
 
 
@@ -18,7 +20,9 @@ AsyncWebServer server(80);
 // Zeitplan-Manager
 
 unsigned long lastCheck = 0; // Speichert den Zeitpunkt der letzten Überprüfung
-const unsigned long interval = 60000; // Überprüfungsintervall in Millisekunden (1 Minute)
+const unsigned long interval = 60000;  
+const unsigned long automatic_interval = 1000; 
+unsigned long currentTime = millis();
 
 
 
@@ -38,8 +42,8 @@ void setup() {
   // Setup fuer pump-Pins 
   setuppumps();
 
-  // Setup fuer Feuchtigkeitssensor-Pin
-  setupSensor();
+  // Setup fuer Feuchtigkeitssoil_sensor-Pin
+  setupsoil_sensor();
   
   /// Initialisiere die Webserver-Routen
     setupRoutes(server);;
@@ -49,23 +53,37 @@ void setup() {
 }
 
 void loop() {
+  // Aktualisieren der Zeit
+  currentTime = millis();
   
   switch (currentMode)
   {
   case WateringMode::MANUAL:
     // ueberpruefen, ob die Verzögerungszeit fuer pump abgelaufen ist. Wenn ja, schalte die pump aus.
     checkpumps();
+    //saveSensorValue();
     
-    break;
+  break;
   case WateringMode::SCHEDULED: {
-  unsigned long currentTime = millis();
-  
+    
   if (currentTime - lastCheck >= interval) {
     checkAndRunEvents();
+    //saveSensorValue();
     lastCheck = currentTime;
   }
   break;
+  
 }
+case WateringMode::SENSOR_BASED:
+ 
+   
+  if (currentTime - lastCheck >= automatic_interval) {
+    automaticIrrigation();
+    //saveSensorValue();
+    lastCheck = currentTime;
+  }
+  break;
+    
 
   default:
     Serial.println("Unbekannter Bewässerungsmodus");
