@@ -10,6 +10,7 @@
 #include <schedule.h>
 #include <database.h>
 #include <automatic_irrigation.h>
+#include <temp_sensor.h>
 
 
 
@@ -20,8 +21,11 @@ AsyncWebServer server(80);
 // Zeitplan-Manager
 
 unsigned long lastCheck = 0; // Speichert den Zeitpunkt der letzten Überprüfung
-const unsigned long interval = 60000;  
-const unsigned long automatic_interval = 1000; 
+unsigned long lastSave = 0; // Speichert den Zeitpunkt der letzten Speicherung
+unsigned long lastCheck_sensor = 0; // S
+const unsigned long interval = 60000;  // Überprüft den Zeitplan alle 60 Sekunden
+const unsigned long automatic_interval = 1000; // Überprüft die Sensorwerte alle 10 Sekunden
+const unsigned long savedata_intervall = 600000; // Speichert die Sensorwerte alle 10 Minuten
 unsigned long currentTime = millis();
 
 
@@ -44,6 +48,9 @@ void setup() {
 
   // Setup fuer Feuchtigkeitssoil_sensor-Pin
   setupsoil_sensor();
+
+  // Setup für den DHT11-Sensor (Temperatur und Luftfeuchtigkeit)
+  sensorTempSetup();
   
   /// Initialisiere die Webserver-Routen
     setupRoutes(server);;
@@ -55,6 +62,15 @@ void setup() {
 void loop() {
   // Aktualisieren der Zeit
   currentTime = millis();
+  //Temperatur printen
+  
+
+  //Alle 30 Minuten die Sensorwerte speichern
+  if (currentTime - lastSave >= savedata_intervall) {
+    saveSensorValue();
+    lastSave = currentTime;
+  }
+  
   
   switch (currentMode)
   {
@@ -68,7 +84,6 @@ void loop() {
     
   if (currentTime - lastCheck >= interval) {
     checkAndRunEvents();
-    //saveSensorValue();
     lastCheck = currentTime;
   }
   break;
@@ -77,10 +92,9 @@ void loop() {
 case WateringMode::SENSOR_BASED:
  
    
-  if (currentTime - lastCheck >= automatic_interval) {
+  if (currentTime - lastCheck_sensor >= automatic_interval) {
     automaticIrrigation();
-    //saveSensorValue();
-    lastCheck = currentTime;
+    lastCheck_sensor = currentTime;
   }
   break;
     

@@ -4,12 +4,13 @@
 #include <ArduinoJson.h>  
 #include "soil_sensor.h"
 #include "string.h"
+#include "temp_sensor.h"
 
 const char* serverUrl = "http://192.168.178.42:5000/api/insertData"; 
 
 void saveSensorValue() {
     float moisture = readsoil_sensor().toFloat();
-    float temperature = getTemperature();
+    float temperature = readTemperature(); 
     Serial.println("Feuchtigkeitswert: " + String(moisture));
     Serial.println("Temperatur: " + String(temperature));
     if (WiFi.status() == WL_CONNECTED) {

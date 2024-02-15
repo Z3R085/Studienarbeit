@@ -27,6 +27,3 @@ float getTankLevel() {
     return 100;
 }
 
-float getTemperature() {
-    return 20;
-}
