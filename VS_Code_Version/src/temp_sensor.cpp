@@ -1,7 +1,7 @@
 
 #include "temp_sensor.h"
 
-#define DHTPIN 22     // Digitaler Pin, der mit dem DHT-Sensor verbunden ist
+#define DHTPIN 23     // Digitaler Pin, der mit dem DHT-Sensor verbunden ist
 #define DHTTYPE DHT11 // DHT 11 
 
 DHT_Unified dht(DHTPIN, DHTTYPE);

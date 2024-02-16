@@ -48,13 +48,13 @@ void togglepump(int pumpNumber) {
 }
 
 /*  checkpumps ueberprueft den Status jeder Pumpe in der pumps-Array.
-    Diese Funktion wird in der loop() regelmäßig aufgerufen, um zu pruefen, ob es Zeit ist,
-    ein eingeschaltetes pump auszuschalten.
+    Diese Funktion wird in der loop() regelmäßig aufgerufen, wenn der Gießmodi auf MANUAL steht, um zu pruefen, ob es Zeit ist,
+    eine eingeschaltete Pumpe auszuschalten.
  */
 void checkpumps() {
     // Durchlaufe jede Pumpe in der pumps-Array
     for (int i = 0; i < sizeof(pumps)/sizeof(pumps[0]); ++i) {
-        // Pruefe, ob das aktuelle pump eingeschaltet ist UND die festgelegte Verzögerungszeit abgelaufen ist.
+        // Pruefe, ob die aktuelle Pumpe eingeschaltet ist UND die festgelegte Verzögerungszeit abgelaufen ist.
         if (pumps[i].isOn && (millis() - pumps[i].timer >= pumps[i].duration)) {
             // Wenn ja, schalte die Pumpe aus.
             digitalWrite(pumps[i].pin, LOW);

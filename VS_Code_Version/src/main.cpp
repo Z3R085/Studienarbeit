@@ -63,7 +63,7 @@ void loop() {
   // Aktualisieren der Zeit
   currentTime = millis();
   //Temperatur printen
-  
+    
 
   //Alle 30 Minuten die Sensorwerte speichern
   if (currentTime - lastSave >= savedata_intervall) {
