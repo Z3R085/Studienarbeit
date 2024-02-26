@@ -12,11 +12,12 @@ void setupsoil_sensor() {
 String readsoil_sensor() {
     // Auslesen des soil_sensorwertes
     int soil_sensorValue = analogRead(FEUCHTIGKEIT_PIN);  
-
-    // Definieren der Min- und Max-Werte des soil_sensors
-    const int minValue = 960;
-    const int maxValue = 2844;
     
+
+        // Definieren der Min- und Max-Werte des soil_sensors
+        const int minValue = 930; //Nasse Erde
+        const int maxValue = 1900; //Trockene Erde
+        
     //Umwandlung in Prozent
     soil_sensorValue = map(soil_sensorValue, maxValue, minValue, 0, 100); 
 

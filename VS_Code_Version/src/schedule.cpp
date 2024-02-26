@@ -11,32 +11,12 @@ static std::vector<WateringEvent> events;
 
 void addEvent(const WateringEvent& event) {
     //Altes Event löschen und neues hinzufügen
-    events.erase(std::remove_if(events.begin(), events.end(), [&event](const WateringEvent& e) {
-        return e.time.tm_hour == event.time.tm_hour && e.time.tm_min == event.time.tm_min;
-    }), events.end());
+    // events.erase(std::remove_if(events.begin(), events.end(), [&event](const WateringEvent& e) { //Löscht das Event, wenn es bereits existiert
+    // return e.time.tm_hour == event.time.tm_hour && e.time.tm_min == event.time.tm_min;
+    // }), events.end());
+    events.clear(); // Löscht alle Events
     events.push_back(event);
-    //In der Konsole ausgeben
-    Serial.println("Event hinzugefügt");
-    Serial.print("Zeit: ");
-    Serial.print(event.time.tm_hour);
-    Serial.print(":");
-    Serial.println(event.time.tm_min);
-    Serial.print("Dauer: ");
-    Serial.println(event.duration);
-    Serial.print("Wiederholung: ");
-    switch (event.repeat) {
-        case RepeatInterval::daily:
-            Serial.println("Täglich");
-            break;
-        case RepeatInterval::weekly:
-            Serial.println("Wöchentlich");
-            break;
-    }
-    Serial.println("Tage:");
-    for (bool day : event.daysOfWeek) {
-        Serial.println(day);
-    }
-    Serial.println("Event hinzugefügt");
+   
 
 }
 

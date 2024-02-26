@@ -23,8 +23,8 @@ function togglepump(pump) {
 
   
 // Funktion zum periodischen Abrufen des Feuchtigkeitswertes
-function refreshData() {
-  fetch('/feuchtigkeit') // GET-Request an den Server
+function refrshData_soil() {
+  fetch('/sensor/feuchtigkeit') // GET-Request an den Server
     .then(response => {
       // Sicherstellen, dass die Anfrage erfolgreich war
       if (!response.ok) {
@@ -41,8 +41,29 @@ function refreshData() {
     });
 }
 
-// Aktualisieren der Feuchtigkeitsdaten jede Sekunde
-setInterval(refreshData, 1000);
+// Funktion zum periodischen Abrufen des Temperaturwertes
+function refreshData_temperature() {
+  fetch('/sensor/temperatur') // GET-Request an den Server
+    .then(response => {
+      // Sicherstellen, dass die Anfrage erfolgreich war
+      if (!response.ok) {
+        throw new Error('Netzwerkfehler');
+      }
+      return response.text();
+    })
+    .then(data => {
+      // Aktualisieren des Textinhalts des HTML-Elements mit der ID "temperatur"
+      document.getElementById("temperatur").innerText = data;
+    })
+    .catch(error => {
+      console.error('Fehler beim Abrufen des Temperaturwerts:', error);
+    });
+}
+
+
+// Aktualisieren der Feuchtigkeits- und Temperaturwerte alle 1000ms
+setInterval(refreshData_temperature, 5000);
+setInterval(refrshData_soil, 3000);
 
 // Funktion zum Abrufen des pump-Status
 function updatepumpStatus() {
@@ -90,7 +111,7 @@ function setPumpDuration(pumpNumber, duration) {
 }
 // Funktion zum Ändern des Gießmodus
 function changeWateringMode(selectedMode) {
-  fetch('/pump/mode', { 
+  fetch('/pump/mode/set', { 
     method: 'PUT',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -114,7 +135,7 @@ function changeWateringMode(selectedMode) {
 }
 // Funktion zum Abrufen des aktuellen Gießmodus
 function getCurrentWateringMode() {
-  fetch('/mode/get') // GET-Request an den Server
+  fetch('/pump/mode/get') // GET-Request an den Server
   .then(response => {
     if (!response.ok) {
       throw new Error('Netzwerkantwort war nicht ok');
@@ -174,7 +195,7 @@ function setSchedule() {
   };
 
   // Hier müssen Sie die URL und Methode entsprechend Ihrer Server-Konfiguration anpassen
-  fetch('/mode/set-schedule', {
+  fetch('/pump//mode/set-schedule', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

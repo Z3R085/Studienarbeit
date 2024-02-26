@@ -1,9 +1,10 @@
-#include "routes.h"
+#include "routes.h" 
 #include "pump.h" // Fuer togglepump
 #include "soil_sensor.h" // Fuer readSensor
+#include "temp_sensor.h" // Fuer readTemperatureSensor
 #include "schedule.h" // Fuer setPumpDuration
-#include <SPIFFS.h>
-#include <ArduinoJson.h>
+#include <SPIFFS.h> // Fuer das Dateisystem
+#include <ArduinoJson.h> // Fuer das Arbeiten mit JSON
 
 void setupRoutes(AsyncWebServer &server) {
     // Route fuer die Wurzel-URL, die das HTML aus einer Datei zurueckgibt
@@ -25,7 +26,7 @@ void setupRoutes(AsyncWebServer &server) {
     // Route zum Umschalten der pumpn
     server.on("/pump/toggle", HTTP_PUT, [](AsyncWebServerRequest *request) {
     if (request->hasParam("pump", true)) {
-        String pump = request->getParam("pump", true)->value();
+        String pump = request->getParam("pump", true)->value(); 
         int pumpNumber = pump.toInt();
         togglepump(pumpNumber);
         request->send(200, "text/plain", "OK");
@@ -52,10 +53,19 @@ void setupRoutes(AsyncWebServer &server) {
 
 
     // Route zum Abrufen des aktuellen Feuchtigkeitswerts
-    server.on("/feuchtigkeit", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/sensor/feuchtigkeit", HTTP_GET, [](AsyncWebServerRequest *request) {
         String feuchtigkeit = readsoil_sensor();
         request->send(200, "text/plain", feuchtigkeit);
     });
+
+    // Route zum Abrufen des aktuellen Temperaturwerts
+    server.on("/sensor/temperatur", HTTP_GET, [](AsyncWebServerRequest *request) {
+    float temperatur = readTemperature(); 
+    // Konvertierung der Temperatur float zu String für die Übertragung
+    String tempStr = String(temperatur, 2); // 2 Dezimalstellen
+    request->send(200, "text/plain", tempStr);
+    });
+
 
      // Route zum Abrufen des lastActivated-Zeitstempels fuer jedes pump
     server.on("/pump/status", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -72,7 +82,7 @@ void setupRoutes(AsyncWebServer &server) {
     });
 
     // Route zum Setzen des Gießmodus
-    server.on("/pump/mode", HTTP_PUT, [](AsyncWebServerRequest *request) {
+    server.on("/pump/mode/set", HTTP_PUT, [](AsyncWebServerRequest *request) {
         if (request->hasParam("mode", true)) {
             String modeParam = request->getParam("mode", true)->value();
             WateringMode mode = static_cast<WateringMode>(modeParam.toInt());
@@ -84,14 +94,14 @@ void setupRoutes(AsyncWebServer &server) {
     });
 
     // Route zum Abrufen des Gießmodus
-    server.on("/mode/get", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/pump/mode/get", HTTP_GET, [](AsyncWebServerRequest *request) {
         WateringMode mode = getWateringMode(); // Funktion, die den aktuellen Modus abruft
         String modeString = String(static_cast<int>(mode)); // Konvertiert Enum zu String
         request->send(200, "text/plain", modeString);
     });
 
     // Route zum Setzen des Zeitplans
-    server.on("/mode/set-schedule", HTTP_POST, [](AsyncWebServerRequest *request) {}, NULL, [](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
+    server.on("/pump/mode/set-schedule", HTTP_POST, [](AsyncWebServerRequest *request) {}, NULL, [](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
     // Erstelle ein temporäres JsonDocument
     // Größe des JsonDocument anpassen, um sicherzustellen, dass es groß genug ist
     DynamicJsonDocument doc(1024);

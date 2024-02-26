@@ -24,8 +24,8 @@ unsigned long lastCheck = 0; // Speichert den Zeitpunkt der letzten Überprüfun
 unsigned long lastSave = 0; // Speichert den Zeitpunkt der letzten Speicherung
 unsigned long lastCheck_sensor = 0; // S
 const unsigned long interval = 60000;  // Überprüft den Zeitplan alle 60 Sekunden
-const unsigned long automatic_interval = 1000; // Überprüft die Sensorwerte alle 10 Sekunden
-const unsigned long savedata_intervall = 600000; // Speichert die Sensorwerte alle 10 Minuten
+const unsigned long automatic_interval = 1000; // Überprüft die Sensorwerte alle 1 Sekunden
+const unsigned long savedata_intervall = 300000; // Speichert die Sensorwerte alle 5 Minuten
 unsigned long currentTime = millis();
 
 
@@ -63,7 +63,7 @@ void loop() {
   // Aktualisieren der Zeit
   currentTime = millis();
   //Temperatur printen
-    
+
 
   //Alle 30 Minuten die Sensorwerte speichern
   if (currentTime - lastSave >= savedata_intervall) {
