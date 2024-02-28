@@ -11,7 +11,7 @@
 #include <database.h>
 #include <automatic_irrigation.h>
 #include <temp_sensor.h>
-
+#include "esp_task_wdt.h" // Watchdog-Timer
 
 
 
@@ -57,9 +57,13 @@ void setup() {
   
   // Starten des Webservers
   server.begin();
+
+  esp_task_wdt_init(60, true); // Setze den Timeout auf 60 Sekunden
+  esp_task_wdt_add(NULL); // Watchdog-Timer hinzufügen
 }
 
 void loop() {
+  esp_task_wdt_reset(); // Watchdog-Timer zurücksetzen
   // Aktualisieren der Zeit
   currentTime = millis();
   //Temperatur printen

@@ -23,7 +23,9 @@ void automaticIrrigation() {
         // Ausschalten der Pumpe, wenn sie eingeschaltet ist
         if (pumps[0].isOn) { // Überprüfen, ob die Pumpe eingeschaltet ist
             togglepump(1); // Zustand der Pumpe umschalten
-            
-        }
+
+        }   
+             
+
     }
 }
