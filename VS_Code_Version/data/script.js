@@ -195,7 +195,7 @@ function setSchedule() {
   };
 
   // Hier müssen Sie die URL und Methode entsprechend Ihrer Server-Konfiguration anpassen
-  fetch('/pump//mode/set-schedule', {
+  fetch('/pump/mode/set-schedule', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

@@ -3,11 +3,14 @@
 #include <vector>
 #include <ctime>
 
-enum class RepeatInterval {
-  daily, weekly
+enum class RepeatInterval
+{
+  daily,
+  weekly
 };
 
-struct WateringEvent {
+struct WateringEvent
+{
   tm time;
   int duration;
   RepeatInterval repeat;
@@ -15,5 +18,5 @@ struct WateringEvent {
 };
 
 // Deklaration der Funktionen für die Verwaltung der Bewässerungsereignisse
-void addEvent(const WateringEvent& event);
+void addEvent(const WateringEvent &event);
 void checkAndRunEvents();

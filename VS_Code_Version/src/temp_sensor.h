@@ -10,4 +10,3 @@ void sensorTempSetup();
 // Funktionen zum Auslesen der Sensordaten
 float readTemperature();
 float readHumidity();
-
