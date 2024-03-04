@@ -10,7 +10,7 @@ const char *serverUrl = "http://192.168.178.42:5000/api/insertData";
 
 void saveSensorValue()
 {
-    float moisture = readsoil_sensor().toFloat();
+    float moisture = readsoil_sensor();
     float temperature = readTemperature();
     Serial.println("Feuchtigkeitswert: " + String(moisture));
     Serial.println("Temperatur: " + String(temperature));

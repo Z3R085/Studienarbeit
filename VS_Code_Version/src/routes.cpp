@@ -51,8 +51,9 @@ void setupRoutes(AsyncWebServer &server)
   // Route zum Abrufen des aktuellen Feuchtigkeitswerts
   server.on("/sensor/feuchtigkeit", HTTP_GET, [](AsyncWebServerRequest *request)
             {
-        String feuchtigkeit = readsoil_sensor();
-        request->send(200, "text/plain", feuchtigkeit); });
+        float feuchtigkeit = readsoil_sensor();
+        String soilStr = String(feuchtigkeit, 2); // 2 Dezimalstellen
+        request->send(200, "text/plain", soilStr); });
 
   // Route zum Abrufen des aktuellen Temperaturwerts
   server.on("/sensor/temperatur", HTTP_GET, [](AsyncWebServerRequest *request)

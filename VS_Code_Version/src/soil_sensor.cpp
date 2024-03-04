@@ -10,7 +10,7 @@ void setupsoil_sensor()
     pinMode(FEUCHTIGKEIT_PIN, INPUT);
 }
 
-String readsoil_sensor()
+float readsoil_sensor()
 {
     // Auslesen des soil_sensorwertes
     int soil_sensorValue = analogRead(FEUCHTIGKEIT_PIN);
@@ -22,7 +22,8 @@ String readsoil_sensor()
     // Umwandlung in Prozent
     soil_sensorValue = map(soil_sensorValue, maxValue, minValue, 0, 100);
 
-    return String(soil_sensorValue);
+    // soil_Sensor to float and return
+    return (float)soil_sensorValue;
 }
 
 float getTankLevel()

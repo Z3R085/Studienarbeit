@@ -6,6 +6,6 @@
 void setupsoil_sensor();
 
 // Deklaration der Funktion zum Lesen des soil_sensors
-String readsoil_sensor();
+float readsoil_sensor();
 
 float getTankLevel();
