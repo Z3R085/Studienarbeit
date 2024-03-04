@@ -22,7 +22,7 @@ float readsoil_sensor()
     // Umwandlung in Prozent
     soil_sensorValue = map(soil_sensorValue, maxValue, minValue, 0, 100);
 
-    // soil_Sensor to float and return
+    // Rückgabe des Feuchtigkeitswertes
     return (float)soil_sensorValue;
 }
 
