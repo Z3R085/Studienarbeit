@@ -22,7 +22,7 @@ unsigned long lastCheck = 0;                     // Speichert den Zeitpunkt der 
 unsigned long lastSave = 0;                      // Speichert den Zeitpunkt der letzten Speicherung
 unsigned long lastCheck_sensor = 0;              // S
 const unsigned long interval = 60000;            // Überprüft den Zeitplan alle 60 Sekunden
-const unsigned long automatic_interval = 1000;   // Überprüft die Sensorwerte alle 1 Sekunden
+const unsigned long automatic_interval = 300000; // Überprüft die Sensorwerte alle 5 Sekunden
 const unsigned long savedata_intervall = 300000; // Speichert die Sensorwerte alle 5 Minuten
 unsigned long currentTime = millis();
 
@@ -104,5 +104,10 @@ void loop()
   default:
     Serial.println("Unbekannter Bewässerungsmodus");
     break;
+  }
+  // Überprüfen, ob die WLAN-Verbindung noch besteht
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    reconnectWiFi();
   }
 }

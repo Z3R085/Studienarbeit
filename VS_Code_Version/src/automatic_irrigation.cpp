@@ -13,20 +13,10 @@ void automaticIrrigation()
     float humidity = readHumidity();        // Luftfeuchtigkeit auslesen aus temp_sensor.cpp
 
     // Bedingungen für das Einschalten der Pumpe
-    if (tankLevel > 5 && temperature < 35 && soilMoisture < 50)
+    if (tankLevel > 5 && temperature < 35 && soilMoisture < 60)
     {
-        // Einschalten der Pumpe, wenn sie noch nicht eingeschaltet ist
-        if (!pumps[0].isOn)
-        {
-            togglepump(1); // Zustand der Pumpe umschalten
-        }
-    }
-    else
-    {
-        // Ausschalten der Pumpe, wenn sie eingeschaltet ist
-        if (pumps[0].isOn)
-        {                  // Überprüfen, ob die Pumpe eingeschaltet ist
-            togglepump(1); // Zustand der Pumpe umschalten
-        }
+        togglepump(1); // Pumpe einschalten
+        delay(2000);   // Pumpe für 2 Sekunden laufen lassen
+        togglepump(1); // Pumpe ausschalten
     }
 }

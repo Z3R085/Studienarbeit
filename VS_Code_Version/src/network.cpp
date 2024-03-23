@@ -14,3 +14,9 @@ void connectToWifi()
   Serial.println("Verbunden mit WiFi-Netzwerk");
   Serial.println(WiFi.localIP());
 }
+
+void reconnectWifi()
+{
+  WiFi.disconnect(); // Trennen der Verbindung
+  WiFi.reconnect();  // Wiederherstellen der Verbindung
+}
